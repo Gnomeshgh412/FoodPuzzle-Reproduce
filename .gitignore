@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.key
+secrets.txt
+api_key.txt
+.DS_Store
+.idea/
+/tmp/

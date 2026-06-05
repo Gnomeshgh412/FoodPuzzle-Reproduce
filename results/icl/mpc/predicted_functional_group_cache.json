@@ -1,0 +1,3447 @@
+{
+  "(+)-alpha-terpineol": [
+    "alcohol",
+    "aliphatic",
+    "alkene",
+    "hydroxy"
+  ],
+  "(+)-delta-cadinene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "(+)-gamma-cadinene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "(+)-neomenthol": [
+    "alcohol",
+    "aliphatic",
+    "hydroxy"
+  ],
+  "(+)-pulegone": [
+    "alkene",
+    "carbonyl",
+    "ketone"
+  ],
+  "(-)-alpha-himachalene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "(-)-carvone": [
+    "aliphatic/aromatic",
+    "alkene",
+    "ketone"
+  ],
+  "(-)-epicatechin": [
+    "alcohol",
+    "alkene",
+    "aromatic",
+    "ether",
+    "phenol"
+  ],
+  "(-)-epicatechin gallate": [
+    "alcohol",
+    "aryl",
+    "ester",
+    "ether",
+    "phenol"
+  ],
+  "(-)-epigallocatechin": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "phenol"
+  ],
+  "(-)-epigallocatechin gallate": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ester",
+    "ether",
+    "hydroxy",
+    "phenol"
+  ],
+  "(2e,4e)-octa-2,4-dienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "(5xi,7xi,10xi)-eudesma-4(14),11-diene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "(e)-.beta.-farnesene": [
+    "alkene"
+  ],
+  "(e)-hept-2-enal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "(z)-beta-ocimene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "(z)-cinnamyl acetate": [
+    "alkene",
+    "aryl",
+    "ester"
+  ],
+  "(z)-cinnamyl alcohol": [
+    "alcohol",
+    "alkene",
+    "aryl"
+  ],
+  "(z)-ethyl cinnamate": [
+    "alkene",
+    "aryl",
+    "ester"
+  ],
+  "(z)-hept-2-enal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "(z)-hex-3-en-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "1,2-dimethoxybenzene": [
+    "aromatic",
+    "aryl",
+    "ether"
+  ],
+  "1,3-dimethoxybenzene": [
+    "aromatic",
+    "ether"
+  ],
+  "1,4-cineole": [
+    "aliphatic",
+    "ether"
+  ],
+  "1,8-cineole": [
+    "aliphatic",
+    "ether"
+  ],
+  "1-decanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-dodecanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-heptanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-hexadecanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-hexanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-methylnaphthalene": [
+    "aromatic",
+    "aryl"
+  ],
+  "1-nonanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-octanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-octen-3-ol": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "1-octen-3-one": [
+    "alkene",
+    "ketone"
+  ],
+  "1-pentanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-penten-3-ol": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "1-phenyl-2-pentanol": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl"
+  ],
+  "1-phenylethanol": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl"
+  ],
+  "1-phenylethyl isobutyrate": [
+    "aliphatic",
+    "aryl",
+    "ester"
+  ],
+  "1-popc": [
+    "alcohol",
+    "alkene",
+    "amine",
+    "ester",
+    "ether"
+  ],
+  "1-propanethiol": [
+    "alkylthiol",
+    "thiol"
+  ],
+  "1-propanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-pyrroline": [
+    "alkene",
+    "amine",
+    "heterocyclic"
+  ],
+  "1-terpineol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "1-tetradecanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "1-tridecyne": [
+    "alkyne"
+  ],
+  "1-undecanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "13679-85-1": [
+    "alcohol",
+    "alkene",
+    "ether",
+    "ketone"
+  ],
+  "2',4'-dimethylacetophenone": [
+    "aromatic",
+    "aryl",
+    "ketone"
+  ],
+  "2'-hydroxyacetophenone": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "2,3,5,6-tetramethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,3,5-trimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,3,5-trithiahexane": [
+    "sulfanyl",
+    "thioether"
+  ],
+  "2,3-butanedione": [
+    "ketone"
+  ],
+  "2,3-dimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,3-pentanedione": [
+    "carbonyl",
+    "ketone"
+  ],
+  "2,4-decadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "2,4-dihydroxybenzoic acid": [
+    "aromatic",
+    "carboxylic",
+    "hydroxy",
+    "phenol"
+  ],
+  "2,4-heptadienal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "2,4-hexadienal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "2,4-nonadienal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "2,4-octadienal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "2,4-undecadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "2,5-dimethylphenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "2,5-dimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,6-dimethyl-4-heptanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2,6-dimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,6-dimethylpyridine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2,6-nonadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "2-(4-hydroxyphenyl)ethanol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "2-(4-methylphenyl)propan-2-ol": [
+    "alcohol",
+    "aromatic",
+    "aryl"
+  ],
+  "2-acetyl-5-methylfuran": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-acetylfuran": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-acetylpyridine": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-acetylpyrrole": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-acetylthiazole": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-butanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-butanone": [
+    "ketone"
+  ],
+  "2-butenoic acid, hexyl ester": [
+    "alkene",
+    "carboxylic",
+    "ester"
+  ],
+  "2-decanone": [
+    "ketone"
+  ],
+  "2-decenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "2-dodecanone": [
+    "ketone"
+  ],
+  "2-ethyl-3,5-dimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2-ethyl-4-hydroxy-5-methyl-3(2h)-furanone": [
+    "alcohol",
+    "alkene",
+    "ether",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-ethyl-5-methylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2-ethylcyclobutanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-ethylfuran": [
+    "ether",
+    "heterocyclic"
+  ],
+  "2-ethylhexan-1-ol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-ethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2-furaldehyde": [
+    "aldehyde",
+    "aryl",
+    "heterocyclic"
+  ],
+  "2-furoic acid": [
+    "aromatic",
+    "carbonyl",
+    "carboxylic",
+    "heterocyclic"
+  ],
+  "2-furylacetone": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "2-heptanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-heptanone": [
+    "ketone"
+  ],
+  "2-hexanone": [
+    "ketone"
+  ],
+  "2-isopropyl-3-methoxypyrazine": [
+    "aromatic",
+    "aryl",
+    "ether",
+    "heterocyclic"
+  ],
+  "2-isopropyl-5-methylcyclohexanone": [
+    "ketone"
+  ],
+  "2-isopropyltoluene": [
+    "aromatic",
+    "aryl"
+  ],
+  "2-methoxy-3-methylpyrazine": [
+    "aromatic",
+    "ether",
+    "heterocyclic"
+  ],
+  "2-methoxy-4-methylphenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "2-methoxy-4-vinylphenol": [
+    "alcohol",
+    "alkene",
+    "aromatic",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "2-methoxycinnamaldehyde": [
+    "aldehyde",
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "2-methoxypyrazine": [
+    "aromatic",
+    "ether",
+    "heterocyclic"
+  ],
+  "2-methyl-1-butanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-methyl-1-propanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-methyl-2-pentenal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "2-methylbutanal": [
+    "aldehyde"
+  ],
+  "2-methylbutanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "2-methylbutyl acetate": [
+    "ester"
+  ],
+  "2-methylbutyl isovalerate": [
+    "ester"
+  ],
+  "2-methylbutyraldehyde": [
+    "aldehyde"
+  ],
+  "2-methylfuran": [
+    "aryl",
+    "ether",
+    "heterocyclic"
+  ],
+  "2-methylpentanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "2-methylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "2-methyltetrahydrofuran-3-one": [
+    "aliphatic",
+    "ether",
+    "ketone"
+  ],
+  "2-nonanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-nonanone": [
+    "ketone"
+  ],
+  "2-octanone": [
+    "ketone"
+  ],
+  "2-octenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "2-pentadecanone": [
+    "ketone"
+  ],
+  "2-pentadecyn-1-ol": [
+    "alcohol",
+    "alkyne"
+  ],
+  "2-pentanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "2-pentanone": [
+    "carbonyl",
+    "ketone"
+  ],
+  "2-penten-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "2-pentylfuran": [
+    "ether",
+    "heterocyclic"
+  ],
+  "2-phenylethanol": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl"
+  ],
+  "2-phenylethyl acetate": [
+    "aryl",
+    "ester"
+  ],
+  "2-phenylethyl butyrate": [
+    "aryl",
+    "ester"
+  ],
+  "2-phenylethyl formate": [
+    "aryl",
+    "ester"
+  ],
+  "2-phenylethyl hexanoate": [
+    "aryl",
+    "ester"
+  ],
+  "2-phenylethyl octanoate": [
+    "aryl",
+    "ester"
+  ],
+  "2-phenylethyl propionate": [
+    "aryl",
+    "ester"
+  ],
+  "2-tetradecanone": [
+    "ketone"
+  ],
+  "2-tridecanone": [
+    "ketone"
+  ],
+  "2-undecanone": [
+    "ketone"
+  ],
+  "2-undecenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "24168-70-5": [
+    "alcohol",
+    "amine",
+    "aromatic",
+    "aryl",
+    "chloride",
+    "halide",
+    "halogen"
+  ],
+  "3,4-dihydroxybenzaldehyde": [
+    "aldehyde",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "3,4-dihydroxybenzoic acid": [
+    "aromatic",
+    "carboxylic",
+    "hydroxy",
+    "phenol"
+  ],
+  "3,4-dimethoxystyrene": [
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "3,5-octadien-2-one": [
+    "alkene",
+    "carbonyl",
+    "ketone"
+  ],
+  "3-(methylthio)propionaldehyde": [
+    "aldehyde",
+    "thioether"
+  ],
+  "3-carene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "3-decanone": [
+    "ketone"
+  ],
+  "3-dodecanone": [
+    "ketone"
+  ],
+  "3-ethyl-2,5-dimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "3-ethylpyridine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "3-heptanone": [
+    "ketone"
+  ],
+  "3-hexanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "3-hexanone": [
+    "ketone"
+  ],
+  "3-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "3-hydroxy-2-pentanone": [
+    "alcohol",
+    "hydroxy",
+    "ketone"
+  ],
+  "3-hydroxy-4-phenylbutan-2-one": [
+    "alcohol",
+    "aryl",
+    "hydroxy",
+    "ketone"
+  ],
+  "3-methyl-1-butanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "3-methyl-1-pentanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "3-methyl-2-butanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "3-methyl-2-buten-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "3-methyl-2-butenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "3-methylbutanal": [
+    "aldehyde"
+  ],
+  "3-methylbutanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "3-methylbutyl acetate": [
+    "ester"
+  ],
+  "3-methylcyclopentane-1,2-dione": [
+    "carbonyl",
+    "ketone"
+  ],
+  "3-methylthiopropanol": [
+    "alcohol",
+    "thioether"
+  ],
+  "3-nonanone": [
+    "ketone"
+  ],
+  "3-octanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "3-octanone": [
+    "ketone"
+  ],
+  "3-pentadecanone": [
+    "ketone"
+  ],
+  "3-pentanone": [
+    "ketone"
+  ],
+  "3-phenylpropanal": [
+    "aldehyde",
+    "aryl"
+  ],
+  "3-phenylpropanoic acid": [
+    "aryl",
+    "carboxylic"
+  ],
+  "3-phenylpropyl acetate": [
+    "aryl",
+    "ester"
+  ],
+  "3-tetradecanone": [
+    "ketone"
+  ],
+  "3-thujene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "3-tridecanone": [
+    "ketone"
+  ],
+  "3-undecanone": [
+    "ketone"
+  ],
+  "4'-methylacetophenone": [
+    "aromatic",
+    "aryl",
+    "ketone"
+  ],
+  "4-(4-hydroxyphenyl)-2-butanone": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "4-(ethoxymethyl)-2-methoxyphenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "phenol"
+  ],
+  "4-allyl-2,6-dimethoxyphenol": [
+    "alkene",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "4-ethyl-2-methoxyphenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "4-ethylphenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "4-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "4-hexen-3-one": [
+    "alkene",
+    "ketone"
+  ],
+  "4-hydroxy-2,5-dimethyl-3(2h)-furanone": [
+    "alcohol",
+    "enol",
+    "ether",
+    "heterocyclic",
+    "hydroxy",
+    "ketone"
+  ],
+  "4-hydroxybenzaldehyde": [
+    "aldehyde",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "4-hydroxybenzoic acid": [
+    "aryl",
+    "carboxylic",
+    "hydroxy",
+    "phenol"
+  ],
+  "4-isopropylbenzaldehyde": [
+    "aldehyde",
+    "aliphatic/aromatic",
+    "aryl"
+  ],
+  "4-methoxybenzaldehyde": [
+    "aldehyde",
+    "aryl",
+    "ether"
+  ],
+  "4-methyl-2-oxovaleric acid": [
+    "aliphatic",
+    "carboxylic",
+    "ketone"
+  ],
+  "4-methyl-2-pentanone": [
+    "ketone"
+  ],
+  "4-methyl-2-pentenal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "4-methyl-5-thiazoleethanol": [
+    "alcohol",
+    "aryl",
+    "heterocyclic",
+    "thioether"
+  ],
+  "4-methylanisole": [
+    "aromatic",
+    "aryl",
+    "ether"
+  ],
+  "4-methylpentanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "4-vinylphenol": [
+    "alkene",
+    "aryl",
+    "phenol"
+  ],
+  "4077-47-8": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "483-77-2": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "5-ethyl-2(5h)-furanone": [
+    "alkene",
+    "ester",
+    "ether",
+    "ketone"
+  ],
+  "5-ethyl-2-methylpyridine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "5-methylfurfural": [
+    "aldehyde",
+    "aryl",
+    "heterocyclic"
+  ],
+  "5-methylhexane-2,3-dione": [
+    "ketone"
+  ],
+  "53398-85-9": [
+    "alcohol",
+    "amine",
+    "aromatic",
+    "aryl",
+    "chloride",
+    "halide",
+    "halogen"
+  ],
+  "6,10,14-trimethylpentadecan-2-one": [
+    "ketone"
+  ],
+  "6-methyl-1-heptanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "6-methyl-2-(oxiran-2-yl)hept-5-en-2-ol": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "6-methyl-5-hepten-2-one": [
+    "alkene",
+    "ketone"
+  ],
+  "6-methylhepta-3,5-dien-2-one": [
+    "alkene",
+    "ketone"
+  ],
+  "6753-98-6": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "7-octen-2-one": [
+    "alkene",
+    "ketone"
+  ],
+  "8-nonen-2-one": [
+    "alkene",
+    "ketone"
+  ],
+  "9-decenoic acid": [
+    "alkene",
+    "carboxylic"
+  ],
+  "ac1l9cnw": [
+    "alcohol",
+    "amine",
+    "aromatic",
+    "aryl",
+    "heterocyclic"
+  ],
+  "ac1nswdq": [
+    "alcohol",
+    "alkene",
+    "amine",
+    "aryl",
+    "carbonyl",
+    "ether",
+    "halide"
+  ],
+  "acetal": [
+    "acetal"
+  ],
+  "acetaldehyde": [
+    "aldehyde"
+  ],
+  "acetoin": [
+    "alcohol",
+    "ketone"
+  ],
+  "acetone": [
+    "carbonyl",
+    "ketone"
+  ],
+  "acetovanillone": [
+    "aryl",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "acetyleugenol": [
+    "alkene",
+    "aryl",
+    "ester",
+    "ether"
+  ],
+  "acetylpyrazine": [
+    "aryl",
+    "heterocyclic",
+    "ketone"
+  ],
+  "acrolein": [
+    "aldehyde",
+    "alkene"
+  ],
+  "adipic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "allyl alcohol": [
+    "alcohol",
+    "alkene"
+  ],
+  "allyl isothiocyanate": [
+    "alkene",
+    "isothiocyanate"
+  ],
+  "allyl methyl disulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "allyl methyl sulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "allyl propyl disulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "allyl propyl sulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "alpha-bisabolene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-bisabolol": [
+    "alcohol",
+    "alkene"
+  ],
+  "alpha-copaene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-farnesene": [
+    "alkene"
+  ],
+  "alpha-humulene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-ionone": [
+    "aliphatic/aromatic",
+    "alkene",
+    "ketone"
+  ],
+  "alpha-l-sorbopyranose": [
+    "alcohol",
+    "ether",
+    "hydroxy"
+  ],
+  "alpha-maltose": [
+    "acetal",
+    "alcohol",
+    "ether",
+    "hydroxy"
+  ],
+  "alpha-muurolene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "alpha-phellandrene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-pinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-sinensal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "alpha-terpinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-terpineol": [
+    "alcohol",
+    "alkene"
+  ],
+  "alpha-terpinyl acetate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "alpha-thujene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "alpha-thujone": [
+    "carbonyl",
+    "ketone"
+  ],
+  "apigenin": [
+    "alcohol",
+    "alkene",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "benzaldehyde": [
+    "aldehyde",
+    "aromatic",
+    "aryl",
+    "carbonyl"
+  ],
+  "benzeneacetaldehyde": [
+    "aldehyde",
+    "aryl"
+  ],
+  "benzoic acid": [
+    "aromatic",
+    "aryl",
+    "carboxylic"
+  ],
+  "benzothiazole": [
+    "aromatic",
+    "aryl",
+    "heterocyclic"
+  ],
+  "benzyl acetate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "carbonyl",
+    "ester"
+  ],
+  "benzyl alcohol": [
+    "alcohol",
+    "aromatic",
+    "aryl"
+  ],
+  "benzyl benzoate": [
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "benzyl salicylate": [
+    "aromatic",
+    "aryl",
+    "ester",
+    "phenol"
+  ],
+  "beta-bisabolene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-caryophyllene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-cis-farnesene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-cyclocitral": [
+    "alcohol",
+    "aldehyde",
+    "alkene"
+  ],
+  "beta-damascenone": [
+    "alkene",
+    "ether",
+    "ketone"
+  ],
+  "beta-elemene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-ionone": [
+    "alcohol",
+    "alkene",
+    "ketone"
+  ],
+  "beta-myrcene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-ocimene": [
+    "alkene"
+  ],
+  "beta-phellandrene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-pinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "beta-sinensal": [
+    "aldehyde",
+    "alkene",
+    "carbonyl"
+  ],
+  "beta-terpineol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "betaine": [
+    "ammonium",
+    "carboxylic"
+  ],
+  "bicyclogermacrene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "biphenyl": [
+    "aromatic",
+    "aryl"
+  ],
+  "borneol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "bornyl acetate": [
+    "alcohol",
+    "ester"
+  ],
+  "butanal": [
+    "aldehyde"
+  ],
+  "butanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "butyl acetate": [
+    "ester"
+  ],
+  "butyl butyrate": [
+    "ester"
+  ],
+  "butyl hexanoate": [
+    "ester"
+  ],
+  "butyl isobutyrate": [
+    "ester"
+  ],
+  "butyl isovalerate": [
+    "ester"
+  ],
+  "butyl laurate": [
+    "ester"
+  ],
+  "butyl octanoate": [
+    "ester"
+  ],
+  "butyl pentanoate": [
+    "ester"
+  ],
+  "butyl propyl disulfide": [
+    "thioether"
+  ],
+  "butylamine": [],
+  "butyric acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "caffeine": [
+    "alkene",
+    "amide",
+    "amine",
+    "heterocyclic",
+    "ketone"
+  ],
+  "calamenene": [
+    "aliphatic/aromatic",
+    "alkene",
+    "aromatic",
+    "aryl"
+  ],
+  "calcium lactate": [
+    "alcohol",
+    "carboxylic",
+    "salt"
+  ],
+  "calcium oxide": [],
+  "camphene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "carnosol": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "carvacrol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "phenol"
+  ],
+  "carvone": [
+    "aliphatic/aromatic",
+    "alkene",
+    "ketone"
+  ],
+  "caryophyllene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "caryophyllene oxide": [
+    "aliphatic",
+    "alkene",
+    "ether"
+  ],
+  "catechol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "cedrol": [
+    "alcohol",
+    "aliphatic",
+    "alkene",
+    "hydroxy"
+  ],
+  "chebi:49249": [
+    "alcohol",
+    "hydroxy",
+    "phenol"
+  ],
+  "chlorogenic acid": [
+    "alcohol",
+    "alkene",
+    "aryl",
+    "carboxylic",
+    "ester",
+    "hydroxy",
+    "phenol"
+  ],
+  "chrysin": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "heterocyclic",
+    "ketone",
+    "phenol"
+  ],
+  "cianidanol": [
+    "alcohol",
+    "aromatic",
+    "ether",
+    "phenol"
+  ],
+  "cid 644104": [
+    "alcohol",
+    "alkene",
+    "amine",
+    "aryl",
+    "ether",
+    "halide",
+    "phenol"
+  ],
+  "cinnamaldehyde": [
+    "aldehyde",
+    "alkene",
+    "aryl"
+  ],
+  "cinnamic acid": [
+    "alkene",
+    "aryl",
+    "carboxylic"
+  ],
+  "cinnamyl alcohol": [
+    "alcohol",
+    "alkene",
+    "aryl"
+  ],
+  "cis-2-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "cis-2-penten-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "cis-3-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "cis-3-hexenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "cis-3-hexenyl acetate": [
+    "alkene",
+    "ester"
+  ],
+  "cis-3-hexenyl crotonate": [
+    "alkene",
+    "ester"
+  ],
+  "cis-3-hexenyl pentanoate": [
+    "ester"
+  ],
+  "cis-4-heptenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "cis-cinnamaldehyde": [
+    "aldehyde",
+    "alkene",
+    "aryl"
+  ],
+  "cis-cinnamic acid": [
+    "alkene",
+    "aryl",
+    "carboxylic"
+  ],
+  "cis-jasmone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "cis-methylisoeugenol": [
+    "aliphatic/aromatic",
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "citral": [
+    "aldehyde",
+    "alkene",
+    "ketone"
+  ],
+  "citronellal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "citronellol": [
+    "alcohol",
+    "alkene"
+  ],
+  "citronellyl acetate": [
+    "alkene",
+    "ester"
+  ],
+  "citronellyl butyrate": [
+    "ester"
+  ],
+  "citronellyl hexanoate": [
+    "alkene",
+    "ester"
+  ],
+  "coumarin": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ether",
+    "heterocyclic",
+    "ketone"
+  ],
+  "coumestrol": [
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "ether",
+    "heterocyclic",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "cresol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "crypton": [],
+  "cuminaldehyde": [
+    "aldehyde",
+    "aromatic",
+    "aryl"
+  ],
+  "curcumene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "cyclopentanone": [
+    "ketone"
+  ],
+  "cyclotene": [
+    "alcohol",
+    "ketone"
+  ],
+  "d-camphor": [
+    "aliphatic",
+    "carbonyl",
+    "ketone"
+  ],
+  "d-lactic acid": [
+    "alcohol",
+    "alpha-hydroxyacid",
+    "carboxylic"
+  ],
+  "d-limonene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "d-mannitol": [
+    "alcohol"
+  ],
+  "d-piperitone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "daidzein": [
+    "alcohol",
+    "aryl",
+    "heterocyclic",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "daidzin": [
+    "alcohol",
+    "aryl",
+    "ether",
+    "heterocyclic",
+    "ketone"
+  ],
+  "damascenone": [
+    "alkene",
+    "ether",
+    "ketone"
+  ],
+  "decanal": [
+    "aldehyde"
+  ],
+  "decanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "decyl acetate": [
+    "ester"
+  ],
+  "decyl butyrate": [
+    "ester"
+  ],
+  "decyl hexanoate": [
+    "ester"
+  ],
+  "delta-3-carene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "delta-cadinene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "delta-decalactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-dodecalactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-hexalactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-nonalactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-octalactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-octanolactone": [
+    "ester",
+    "ketone"
+  ],
+  "delta-tetradecalactone": [
+    "ester"
+  ],
+  "delta-undecalactone": [
+    "ester",
+    "ketone"
+  ],
+  "diacetyl": [
+    "ketone"
+  ],
+  "diallyl disulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "diallyl sulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "diallyl trisulfide": [
+    "alkene",
+    "thioether"
+  ],
+  "diethyl malate": [
+    "alcohol",
+    "ester",
+    "hydroxy"
+  ],
+  "diethyl malonate": [
+    "carbonyl",
+    "ester"
+  ],
+  "diethyl succinate": [
+    "ester"
+  ],
+  "dihydro-beta-ionone": [
+    "alkene",
+    "ketone"
+  ],
+  "diisopropyl trisulfide": [
+    "sulfanyl",
+    "thioether"
+  ],
+  "dimethyl disulfide": [
+    "alkylthiol",
+    "thioether"
+  ],
+  "dimethyl sulfide": [
+    "thioether"
+  ],
+  "dimethyl sulfoxide": [
+    "sulfoxide"
+  ],
+  "dimethyl trisulfide": [
+    "thioether"
+  ],
+  "dimethylmalonic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "diosphenol": [
+    "alcohol",
+    "enol",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "dipentene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "diphenyl oxide": [
+    "aromatic",
+    "aryl",
+    "ether"
+  ],
+  "dipropyl disulfide": [
+    "sulfanyl",
+    "thioether"
+  ],
+  "dl-alanine": [
+    "alpha-aminoacid",
+    "amine",
+    "carboxylic"
+  ],
+  "dl-liquiritigenin": [
+    "alcohol",
+    "aryl",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "dl-methionine": [
+    "aliphatic",
+    "alkylthiol",
+    "amine",
+    "carboxylic"
+  ],
+  "dl-phenylalanine": [
+    "aliphatic/aromatic",
+    "amine",
+    "aryl",
+    "carboxylic"
+  ],
+  "dl-tartaric acid": [
+    "alcohol",
+    "carboxylic",
+    "hydroxy"
+  ],
+  "dodecanal": [
+    "aldehyde"
+  ],
+  "eicosane": [],
+  "elaidic acid": [
+    "aliphatic",
+    "alkene",
+    "carboxylic"
+  ],
+  "epoxylinalool": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "estragole": [
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "ethyl 2-methylbutanoate": [
+    "ester"
+  ],
+  "ethyl 2-methylbutyrate": [
+    "ester"
+  ],
+  "ethyl 2-octenoate": [
+    "alkene",
+    "ester"
+  ],
+  "ethyl 3-(methylthio)propionate": [
+    "ester",
+    "thioether"
+  ],
+  "ethyl 3-hydroxybutyrate": [
+    "alcohol",
+    "ester"
+  ],
+  "ethyl 3-hydroxyhexanoate": [
+    "alcohol",
+    "ester"
+  ],
+  "ethyl 3-methylbutanoate": [
+    "ester"
+  ],
+  "ethyl 3-methylpentanoate": [
+    "ester"
+  ],
+  "ethyl acetate": [
+    "ester"
+  ],
+  "ethyl benzoate": [
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "ethyl butyrate": [
+    "ester"
+  ],
+  "ethyl caproate": [
+    "ester"
+  ],
+  "ethyl cinnamate": [
+    "alkene",
+    "aryl",
+    "ester"
+  ],
+  "ethyl decanoate": [
+    "ester"
+  ],
+  "ethyl dodecanoate": [
+    "ester"
+  ],
+  "ethyl formate": [
+    "ester"
+  ],
+  "ethyl heptanoate": [
+    "ester"
+  ],
+  "ethyl hexadecanoate": [
+    "ester"
+  ],
+  "ethyl hexanoate": [
+    "ester"
+  ],
+  "ethyl isobutyrate": [
+    "ester"
+  ],
+  "ethyl isovalerate": [
+    "ester"
+  ],
+  "ethyl lactate": [
+    "alcohol",
+    "ester",
+    "hydroxy"
+  ],
+  "ethyl laurate": [
+    "ester"
+  ],
+  "ethyl levulinate": [
+    "ester",
+    "ketone"
+  ],
+  "ethyl linoleate": [
+    "alkene",
+    "ester"
+  ],
+  "ethyl linolenate": [
+    "alkene",
+    "ester"
+  ],
+  "ethyl methyl disulfide": [
+    "thioether"
+  ],
+  "ethyl methyl sulfide": [
+    "thioether"
+  ],
+  "ethyl myristate": [
+    "ester"
+  ],
+  "ethyl nonanoate": [
+    "ester"
+  ],
+  "ethyl octanoate": [
+    "ester"
+  ],
+  "ethyl oleate": [
+    "alkene",
+    "ester"
+  ],
+  "ethyl palmitate": [
+    "ester"
+  ],
+  "ethyl pentanoate": [
+    "ester"
+  ],
+  "ethyl phenylacetate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ester"
+  ],
+  "ethyl propionate": [
+    "ester"
+  ],
+  "ethyl pyruvate": [
+    "ester",
+    "ketone"
+  ],
+  "ethyl salicylate": [
+    "aromatic",
+    "ester",
+    "phenol"
+  ],
+  "ethyl sorbate": [
+    "alkene",
+    "carbonyl",
+    "ester"
+  ],
+  "ethyl stearate": [
+    "ester"
+  ],
+  "ethyl tetradecanoate": [
+    "ester"
+  ],
+  "ethyl undecanoate": [
+    "ester"
+  ],
+  "ethyl valerate": [
+    "ester"
+  ],
+  "ethyl vinyl ketone": [
+    "alkene",
+    "ketone"
+  ],
+  "eucalyptol": [
+    "aliphatic",
+    "ether"
+  ],
+  "eugenol": [
+    "alcohol",
+    "alkene",
+    "aromatic",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "farnesal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "farnesene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "farnesol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "farnesyl acetone": [
+    "alkene",
+    "ketone"
+  ],
+  "farnesylacetone": [
+    "alkene",
+    "ketone"
+  ],
+  "fenchol": [
+    "alcohol",
+    "alkene"
+  ],
+  "fenchone": [
+    "ketone"
+  ],
+  "formic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "furfural": [
+    "aldehyde",
+    "aryl",
+    "heterocyclic"
+  ],
+  "furfuryl acetate": [
+    "ester",
+    "ether",
+    "heterocyclic"
+  ],
+  "furfuryl alcohol": [
+    "alcohol",
+    "aryl",
+    "heterocyclic"
+  ],
+  "furfuryl methyl sulfide": [
+    "aryl",
+    "heterocyclic",
+    "thioether"
+  ],
+  "furfuryl propionate": [
+    "ester",
+    "ether",
+    "heterocyclic"
+  ],
+  "furfuryl thiol": [
+    "aryl",
+    "heterocyclic",
+    "thiol"
+  ],
+  "gallocatechin": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "heterocyclic",
+    "phenol"
+  ],
+  "gamma-butyrolactone": [
+    "carbonyl",
+    "ester"
+  ],
+  "gamma-cadinene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "gamma-caprolactone": [
+    "ester"
+  ],
+  "gamma-decalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-dodecalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-heptalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-hexalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-nonalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-nonanolactone": [
+    "alcohol",
+    "ester"
+  ],
+  "gamma-octalactone": [
+    "ester"
+  ],
+  "gamma-pentalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-selinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "gamma-terpinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "gamma-terpineol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "gamma-undecalactone": [
+    "ester",
+    "ketone"
+  ],
+  "gamma-valerolactone": [
+    "ester",
+    "ketone"
+  ],
+  "geranial": [
+    "aldehyde",
+    "aliphatic",
+    "alkene"
+  ],
+  "geranic acid": [
+    "alkene",
+    "carbonyl",
+    "carboxylic"
+  ],
+  "geraniol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "geranyl acetate": [
+    "alkene",
+    "ester"
+  ],
+  "geranyl acetone": [
+    "alkene",
+    "ketone"
+  ],
+  "geranyl butyrate": [
+    "alkene",
+    "ester"
+  ],
+  "geranyl hexanoate": [
+    "ester"
+  ],
+  "geranylacetone": [
+    "alkene",
+    "ketone"
+  ],
+  "germacrene d": [
+    "aliphatic",
+    "alkene"
+  ],
+  "gingerol": [
+    "alcohol",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "glucobrassicin": [],
+  "glycerol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "grosheimin": [
+    "alcohol",
+    "alkene",
+    "ester",
+    "ether",
+    "ketone"
+  ],
+  "guaiacol": [
+    "aromatic",
+    "ether",
+    "phenol"
+  ],
+  "heneicosane": [],
+  "heptanal": [
+    "aldehyde"
+  ],
+  "heptanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "heptanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "hexanal": [
+    "aldehyde"
+  ],
+  "hexanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "hexanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "hexyl acetate": [
+    "ester"
+  ],
+  "hexyl benzoate": [
+    "aryl",
+    "ester"
+  ],
+  "hexyl butyrate": [
+    "ester"
+  ],
+  "hexyl hexanoate": [
+    "ester"
+  ],
+  "hexyl octanoate": [
+    "ester"
+  ],
+  "hotrienol": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "humulene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "humulene epoxide": [
+    "alkene",
+    "ether"
+  ],
+  "hydrogen cyanide": [
+    "carbonitrile"
+  ],
+  "hydrogen peroxide": [
+    "hydroperoxide"
+  ],
+  "hydrogen sulfide": [
+    "sulfanyl",
+    "thiol"
+  ],
+  "hydroquinone": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "hydroxyacetone": [
+    "alcohol",
+    "hydroxy",
+    "ketone"
+  ],
+  "indole": [
+    "aromatic",
+    "aryl",
+    "heterocyclic"
+  ],
+  "indole-3-acetic acid": [
+    "aromatic",
+    "aryl",
+    "carboxylic",
+    "heterocyclic"
+  ],
+  "isoamyl acetate": [
+    "ester"
+  ],
+  "isoamyl alcohol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "isoamyl butyrate": [
+    "ester"
+  ],
+  "isoamyl formate": [
+    "ester"
+  ],
+  "isoamyl hexanoate": [
+    "ester"
+  ],
+  "isoamyl isobutyrate": [
+    "ester"
+  ],
+  "isoamyl isovalerate": [
+    "ester"
+  ],
+  "isoamyl laurate": [
+    "ester"
+  ],
+  "isoamyl octanoate": [
+    "ester"
+  ],
+  "isoamyl propionate": [
+    "ester"
+  ],
+  "isoamylamine": [],
+  "isoborneol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "isobornyl acetate": [
+    "ester"
+  ],
+  "isobutyl acetate": [
+    "ester"
+  ],
+  "isobutyl alcohol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "isobutyl butyrate": [
+    "ester"
+  ],
+  "isobutyl formate": [
+    "ester"
+  ],
+  "isobutyl hexanoate": [
+    "ester"
+  ],
+  "isobutyl isobutyrate": [
+    "ester"
+  ],
+  "isobutyl isovalerate": [
+    "ester"
+  ],
+  "isobutyl propionate": [
+    "ester"
+  ],
+  "isobutyraldehyde": [
+    "aldehyde"
+  ],
+  "isobutyric acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "isoeugenol": [
+    "alcohol",
+    "alkene",
+    "aromatic",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "isoliquiritigenin": [
+    "alcohol",
+    "alkene",
+    "aryl",
+    "ketone",
+    "phenol"
+  ],
+  "isomenthone": [
+    "ketone"
+  ],
+  "isopentyl cinnamate": [
+    "alkene",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "isopentyl hexanoate": [
+    "ester"
+  ],
+  "isopentyl isobutyrate": [
+    "ester"
+  ],
+  "isopentyl octanoate": [
+    "ester"
+  ],
+  "isophorone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "isopropanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "isopropyl acetate": [
+    "ester"
+  ],
+  "isopropyl alcohol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "isopropyl butyrate": [
+    "ester"
+  ],
+  "isopropyl formate": [
+    "ester"
+  ],
+  "isopropyl hexanoate": [
+    "ester"
+  ],
+  "isopropyl isobutyrate": [
+    "ester"
+  ],
+  "isopropyl isovalerate": [
+    "ester"
+  ],
+  "isopropyl myristate": [
+    "ester"
+  ],
+  "isopropyl palmitate": [
+    "ester"
+  ],
+  "isopropyl propionate": [
+    "ester"
+  ],
+  "isopulegol": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "isoquercitrin": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "ether",
+    "heterocyclic",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "isorhamnetin": [
+    "alcohol",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "isovaleric acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "kaempferol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "l-arginine": [],
+  "l-histidine": [
+    "alpha-aminoacid",
+    "amine",
+    "aromatic",
+    "carboxylic",
+    "heterocyclic"
+  ],
+  "l-malic acid": [
+    "acid",
+    "alcohol",
+    "carboxylic",
+    "hydroxy"
+  ],
+  "l-phenylalanine": [
+    "aliphatic/aromatic",
+    "alpha-aminoacid",
+    "amine",
+    "aryl",
+    "carboxylic"
+  ],
+  "l-rhamnose": [
+    "alcohol",
+    "aliphatic",
+    "ether"
+  ],
+  "lactic acid": [
+    "alcohol",
+    "alpha-hydroxyacid",
+    "carboxylic"
+  ],
+  "lauric acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "lavender lactone": [
+    "ester",
+    "ketone"
+  ],
+  "limonene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "linalool": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "linalool a oxide": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "linalool oxide": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "linalyl acetate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "linalyl butyrate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "linalyl formate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "linalyl hexanoate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "linalyl isobutyrate": [
+    "alcohol",
+    "alkene",
+    "ester"
+  ],
+  "linamarin": [
+    "alcohol",
+    "alkene",
+    "carbonitrile",
+    "ether"
+  ],
+  "linden ether": [
+    "alcohol",
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "longifolene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "luteolin": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "heterocyclic",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "m-cresol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "malic acid": [
+    "alcohol",
+    "carboxylic",
+    "hydroxy"
+  ],
+  "maltol": [
+    "alcohol",
+    "carbonyl",
+    "heterocyclic",
+    "hydroxy",
+    "ketone",
+    "oxo(het)arene"
+  ],
+  "menthol": [
+    "alcohol",
+    "aliphatic",
+    "hydroxy"
+  ],
+  "menthone": [
+    "ketone"
+  ],
+  "mesityl oxide": [
+    "alkene",
+    "carbonyl",
+    "ketone"
+  ],
+  "methanethiol": [
+    "alkylthiol",
+    "thiol"
+  ],
+  "methyl 2-methylbutyrate": [
+    "ester"
+  ],
+  "methyl acetate": [
+    "ester"
+  ],
+  "methyl alcohol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "methyl anthranilate": [
+    "amine",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "methyl benzoate": [
+    "aryl",
+    "carbonyl",
+    "ester"
+  ],
+  "methyl butyrate": [
+    "ester"
+  ],
+  "methyl cinnamate": [
+    "alkene",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "ester"
+  ],
+  "methyl cis-cinnamate": [
+    "alkene",
+    "aryl",
+    "ester"
+  ],
+  "methyl decanoate": [
+    "ester"
+  ],
+  "methyl dodecanoate": [
+    "ester"
+  ],
+  "methyl formate": [
+    "ester"
+  ],
+  "methyl heptanoate": [
+    "ester"
+  ],
+  "methyl hexadecanoate": [
+    "ester"
+  ],
+  "methyl hexanoate": [
+    "ester"
+  ],
+  "methyl isobutyrate": [
+    "ester"
+  ],
+  "methyl isovalerate": [
+    "ester"
+  ],
+  "methyl jasmonate": [
+    "alkene",
+    "ester",
+    "ketone"
+  ],
+  "methyl laurate": [
+    "ester"
+  ],
+  "methyl linoleate": [
+    "aliphatic",
+    "alkene",
+    "ester"
+  ],
+  "methyl linolenate": [
+    "alkene",
+    "ester"
+  ],
+  "methyl myristate": [
+    "ester"
+  ],
+  "methyl n-methylanthranilate": [
+    "amine",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "methyl nonanoate": [
+    "ester"
+  ],
+  "methyl octanoate": [
+    "ester"
+  ],
+  "methyl oleate": [
+    "aliphatic",
+    "alkene",
+    "ester"
+  ],
+  "methyl palmitate": [
+    "ester"
+  ],
+  "methyl pentanoate": [
+    "ester"
+  ],
+  "methyl phenylacetate": [
+    "aryl",
+    "ester"
+  ],
+  "methyl propenyl ketone": [
+    "alkene",
+    "ketone"
+  ],
+  "methyl propionate": [
+    "ester"
+  ],
+  "methyl propyl disulfide": [
+    "thioether"
+  ],
+  "methyl salicylate": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "ester",
+    "hydroxy",
+    "phenol"
+  ],
+  "methyl stearate": [
+    "ester"
+  ],
+  "methyl tetradecanoate": [
+    "ester"
+  ],
+  "methyl undecanoate": [
+    "ester"
+  ],
+  "methyl valerate": [
+    "ester"
+  ],
+  "methyleugenol": [
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "methylglyoxal": [
+    "aldehyde",
+    "carbonyl",
+    "ketone"
+  ],
+  "myrcene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "myristicin": [
+    "alkene",
+    "aromatic",
+    "ether",
+    "heterocyclic"
+  ],
+  "naringen": [
+    "alcohol",
+    "aryl",
+    "ketone",
+    "phenol"
+  ],
+  "naringenin": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl",
+    "carbonyl",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "naringin": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl",
+    "ether",
+    "heterocyclic",
+    "ketone",
+    "phenol"
+  ],
+  "neomenthol": [
+    "alcohol",
+    "aliphatic",
+    "hydroxy"
+  ],
+  "neral": [
+    "aldehyde",
+    "alkene"
+  ],
+  "nerol": [
+    "alcohol",
+    "alkene"
+  ],
+  "nerolidol": [
+    "alcohol",
+    "alkene",
+    "hydroxy"
+  ],
+  "neryl acetate": [
+    "alkene",
+    "ester"
+  ],
+  "neryl acetone": [
+    "alkene",
+    "ketone"
+  ],
+  "neryl formate": [
+    "alkene",
+    "ester"
+  ],
+  "nicotine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "nonanal": [
+    "aldehyde"
+  ],
+  "nonane": [],
+  "nonanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "nonanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "noorkatone": [
+    "ketone"
+  ],
+  "nootkatone": [
+    "aliphatic/aromatic",
+    "alkene",
+    "ketone"
+  ],
+  "nsc5112": [
+    "alcohol",
+    "amine",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "o-cresol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "ocimen quintoxide": [
+    "alkene",
+    "ether"
+  ],
+  "ocimene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "octadecane": [],
+  "octan-2-ol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "octan-2-one": [
+    "ketone"
+  ],
+  "octanal": [
+    "aldehyde"
+  ],
+  "octane-2,3-dione": [
+    "ketone"
+  ],
+  "octanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "octanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "octyl acetate": [
+    "ester"
+  ],
+  "octyl butyrate": [
+    "ester"
+  ],
+  "octyl hexanoate": [
+    "ester"
+  ],
+  "oleic acid": [
+    "alkene",
+    "carboxylic"
+  ],
+  "p-benzoquinone": [
+    "ketone",
+    "oxo(het)arene"
+  ],
+  "p-coumaric acid": [
+    "alkene",
+    "aryl",
+    "carboxylic",
+    "phenol"
+  ],
+  "p-cresol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "p-cymene": [
+    "aliphatic/aromatic",
+    "aromatic",
+    "aryl"
+  ],
+  "p-tolyl isovalerate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ester"
+  ],
+  "palmitic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "pentadecane": [],
+  "pentanal": [
+    "aldehyde"
+  ],
+  "pentanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "pentanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "perillaldehyde": [
+    "aldehyde",
+    "aliphatic",
+    "alkene"
+  ],
+  "phenethyl acetate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl alcohol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy"
+  ],
+  "phenethyl benzoate": [
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl butyrate": [
+    "aliphatic",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl hexanoate": [
+    "ester"
+  ],
+  "phenethyl isobutyrate": [
+    "aliphatic",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl isothiocyanate": [
+    "aliphatic",
+    "aryl",
+    "isothiocyanate"
+  ],
+  "phenethyl isovalerate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl phenylacetate": [
+    "aliphatic/aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethyl propionate": [
+    "aliphatic",
+    "aromatic",
+    "aryl",
+    "ester"
+  ],
+  "phenethylamine": [
+    "aliphatic/aromatic",
+    "amine",
+    "aryl"
+  ],
+  "phenol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "phenylacetaldehyde": [
+    "aldehyde",
+    "aryl"
+  ],
+  "phenylacetic acid": [
+    "aryl",
+    "carboxylic"
+  ],
+  "phenylacetonitrile": [
+    "aryl",
+    "carbonitrile"
+  ],
+  "phenylalanine": [
+    "amine",
+    "aryl",
+    "carboxylic"
+  ],
+  "phloretin": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl",
+    "ketone",
+    "phenol"
+  ],
+  "phlorizin": [
+    "alcohol",
+    "aromatic",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "phytol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "pinene": [
+    "aliphatic",
+    "aliphatic/aromatic",
+    "alkene"
+  ],
+  "piperidine": [
+    "aliphatic",
+    "amine",
+    "heterocyclic"
+  ],
+  "piperitenone": [
+    "aliphatic/aromatic",
+    "alkene",
+    "ketone"
+  ],
+  "piperitol": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "piperitone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "propanal": [
+    "aldehyde"
+  ],
+  "propanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "propanol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "propionaldehyde": [
+    "aldehyde"
+  ],
+  "propionic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "propyl acetate": [
+    "ester"
+  ],
+  "propyl alcohol": [
+    "alcohol",
+    "hydroxy"
+  ],
+  "propyl butyrate": [
+    "ester"
+  ],
+  "propyl formate": [
+    "ester"
+  ],
+  "propyl hexanoate": [
+    "ester"
+  ],
+  "propyl isobutyrate": [
+    "ester"
+  ],
+  "propyl isovalerate": [
+    "ester"
+  ],
+  "propyl octanoate": [
+    "ester"
+  ],
+  "propyl propionate": [
+    "ester"
+  ],
+  "prunetin": [
+    "alcohol",
+    "aryl",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "pulegone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "pyrazine": [
+    "aromatic",
+    "heterocyclic"
+  ],
+  "pyridine": [
+    "aromatic",
+    "heterocyclic"
+  ],
+  "pyrrole": [
+    "amine",
+    "heterocyclic"
+  ],
+  "pyrrolidine": [
+    "aliphatic",
+    "amine",
+    "heterocyclic"
+  ],
+  "pyruvic acid": [
+    "carboxylic",
+    "ketone"
+  ],
+  "quercetin": [
+    "alcohol",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "ketone",
+    "phenol"
+  ],
+  "quinic acid": [
+    "alcohol",
+    "carboxylic",
+    "hydroxy"
+  ],
+  "quinoline": [
+    "aromatic",
+    "aryl",
+    "heterocyclic"
+  ],
+  "resorcinol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "resveratrol": [
+    "alcohol",
+    "alkene",
+    "aryl",
+    "hydroxy",
+    "phenol"
+  ],
+  "s-ethyl ethanethioate": [
+    "ester",
+    "thiocarboxylic"
+  ],
+  "s-methyl 2-methylbutanethioate": [
+    "ester",
+    "thiocarboxylic"
+  ],
+  "s-methyl 3-methylbutanethioate": [
+    "ester",
+    "thiocarboxylic"
+  ],
+  "s-methyl propanethioate": [],
+  "s-methyl thioacetate": [],
+  "s-methyl thiobutyrate": [
+    "ester",
+    "thioether"
+  ],
+  "sabinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "safrole": [
+    "acetal",
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "salicylaldehyde": [
+    "alcohol",
+    "aldehyde",
+    "aromatic",
+    "aryl",
+    "carbonyl",
+    "hydroxy",
+    "phenol"
+  ],
+  "salicylic acid": [
+    "aromatic",
+    "carboxylic",
+    "hydroxy",
+    "phenol"
+  ],
+  "saupirin": [
+    "alcohol",
+    "amide",
+    "amine",
+    "aryl",
+    "ether",
+    "ketone"
+  ],
+  "sinapic acid": [
+    "alkene",
+    "aryl",
+    "carboxylic",
+    "ether",
+    "phenol"
+  ],
+  "skatole": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "stearic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "styrene": [
+    "alkene",
+    "aryl"
+  ],
+  "succinic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "syringaldehyde": [
+    "aldehyde",
+    "aromatic",
+    "ether",
+    "phenol"
+  ],
+  "taxifolin": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "aryl",
+    "ether",
+    "ketone",
+    "phenol"
+  ],
+  "terpinen-4-ol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "terpinene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "terpineol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "terpinolene": [
+    "aliphatic",
+    "alkene"
+  ],
+  "tetradecanal": [
+    "aldehyde"
+  ],
+  "tetradecane": [],
+  "tetradecanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "theaspirane": [
+    "alcohol",
+    "alkene",
+    "ether"
+  ],
+  "thiamine": [
+    "alcohol",
+    "amine",
+    "ammonium",
+    "halide",
+    "heterocyclic"
+  ],
+  "thiamine hydrochloride": [
+    "alcohol",
+    "ammonium",
+    "aryl",
+    "chloride",
+    "halide",
+    "heterocyclic",
+    "salt"
+  ],
+  "thiazole": [
+    "aromatic",
+    "heterocyclic"
+  ],
+  "thymol": [
+    "alcohol",
+    "aromatic",
+    "aryl",
+    "ether",
+    "hydroxy",
+    "phenol"
+  ],
+  "thymol methyl ether": [
+    "aliphatic",
+    "aromatic",
+    "ether"
+  ],
+  "thymoquinone": [
+    "ketone",
+    "oxo(het)arene"
+  ],
+  "tiglic aldehyde": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans,trans-2,4-decadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans,trans-2,4-heptadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans,trans-2,4-nonadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans,trans-2,4-octadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans,trans-2,4-undecadienal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-decenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-heptenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "trans-2-hexenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-hexenoic acid": [
+    "alkene",
+    "carboxylic"
+  ],
+  "trans-2-hexenyl acetate": [
+    "alkene",
+    "ester"
+  ],
+  "trans-2-nonen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "trans-2-nonenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-octenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-2-pentenal": [
+    "aldehyde",
+    "alkene"
+  ],
+  "trans-3-hexen-1-ol": [
+    "alcohol",
+    "alkene"
+  ],
+  "trans-anethole": [
+    "alkene",
+    "aryl",
+    "ether"
+  ],
+  "triacetin": [
+    "ester"
+  ],
+  "tributyrin": [
+    "ester"
+  ],
+  "tricosane": [],
+  "tridecane": [],
+  "trigonelline": [
+    "ammonium",
+    "carboxylic"
+  ],
+  "trimethylamine": [
+    "(alkylamine)",
+    "amine",
+    "trialkylamine"
+  ],
+  "trimethylpyrazine": [
+    "amine",
+    "aromatic",
+    "heterocyclic"
+  ],
+  "undecanal": [
+    "aldehyde"
+  ],
+  "undecane": [],
+  "undecanoic acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "unii-m41y60o5bz": [
+    "alcohol",
+    "hydroxy",
+    "phenol"
+  ],
+  "valencene": [
+    "aliphatic",
+    "alkene",
+    "aryl"
+  ],
+  "valeric acid": [
+    "acid",
+    "carboxylic"
+  ],
+  "vanillic acid": [
+    "aromatic",
+    "carboxylic",
+    "ether",
+    "phenol"
+  ],
+  "vanillin": [
+    "aldehyde",
+    "aromatic",
+    "ether",
+    "phenol"
+  ],
+  "veratrole": [
+    "aromatic",
+    "ether"
+  ],
+  "verbenol": [
+    "alcohol",
+    "aliphatic",
+    "alkene"
+  ],
+  "verbenone": [
+    "aliphatic",
+    "alkene",
+    "ketone"
+  ],
+  "vinylguaiacol": [
+    "alkene",
+    "aryl",
+    "ether",
+    "phenol"
+  ],
+  "vitamin c": [
+    "alcohol",
+    "enol",
+    "ester",
+    "ketone"
+  ],
+  "vitamin e": [
+    "alcohol",
+    "aromatic",
+    "ether",
+    "heterocyclic",
+    "phenol"
+  ],
+  "whiskey lactone": [
+    "alcohol",
+    "aliphatic/aromatic",
+    "ester"
+  ],
+  "xanthine": [
+    "amine",
+    "aromatic",
+    "carbonyl",
+    "heterocyclic",
+    "imide,"
+  ],
+  "xylose": [
+    "alcohol",
+    "aldehyde"
+  ],
+  "zingerone": [
+    "alcohol",
+    "alkene",
+    "aromatic",
+    "ether",
+    "ketone",
+    "phenol"
+  ]
+}

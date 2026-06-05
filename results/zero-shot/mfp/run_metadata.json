@@ -1,0 +1,36 @@
+{
+  "accuracy": 0.2112676056338028,
+  "correct": 15,
+  "evaluation_details": "results/zero-shot/mfp/evaluation_details.jsonl",
+  "evaluation_summary": "results/zero-shot/mfp/evaluation_summary.txt",
+  "input_file": "results/splits/mfp/test.jsonl",
+  "is_full_result": false,
+  "is_table2_reproduction": false,
+  "matched_ids": 71,
+  "method": "zero_shot",
+  "mode": "free_text_prediction",
+  "model": "deepseek-v4-flash",
+  "notes": [
+    "This is the MFP zero-shot free-text baseline evaluated on the reconstructed test split.",
+    "The split is reconstructed from the public MFP_tasks.jsonl because no official split field is available.",
+    "The original paper used GPT-3.5-turbo/OpenAI; this run uses DeepSeek as the LLM provider.",
+    "This result is intended for comparison with ICL on the same reconstructed test split."
+  ],
+  "num_eval_examples": 71,
+  "predictions": "results/zero-shot/mfp/predictions.jsonl",
+  "provider": "deepseek",
+  "split": {
+    "eval_split": "test",
+    "is_official_split": false,
+    "near_duplicate_decontamination": false,
+    "ratio": "80/10/10",
+    "seed": 42,
+    "split_dir": "results/splits/mfp",
+    "strategy": "reconstructed",
+    "stratified": false
+  },
+  "stage": "mfp_zero_shot_free_text_reconstructed_split_seed42",
+  "task": "mfp",
+  "total": 71,
+  "total_predictions": 71
+}
