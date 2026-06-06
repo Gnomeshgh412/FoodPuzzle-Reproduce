@@ -12,6 +12,7 @@ method: zero-shot
 mode: missing molecule prediction
 generation provider: DeepSeek
 evaluation provider: DeepSeek
+model: deepseek-v4-flash
 evaluation: official-code-aligned functional group set F1
 eval split: results/splits/mpc/test.jsonl
 ```

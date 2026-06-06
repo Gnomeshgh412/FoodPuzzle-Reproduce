@@ -280,7 +280,7 @@ MPC evaluation 任务是 missing molecule list completion。原文评价思路�
 2. official split 未公开，当前 split 是 seed=42 的 reconstructed split；
 3. official Agent code / prompts / DSPy signature 未完整公开；
 4. 当前 Agent 是 paper-aligned reconstruction；
-5. 当前使用 DeepSeek，不是原文 GPT-3.5 / Gemini / LLaMA3；
+5. 当前 formal results 使用 DeepSeek `deepseek-v4-flash`，不是原文 GPT-3.5 / Gemini / LLaMA3；
 6. MPC evaluation 使用 DeepSeek 做 predicted molecule -> functional group extraction；
 7. 不与论文 Table 2 严格数值比较。
 

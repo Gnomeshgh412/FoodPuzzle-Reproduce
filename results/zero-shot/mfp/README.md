@@ -11,6 +11,7 @@ task: MFP
 method: zero-shot
 mode: free-text prediction
 generation provider: DeepSeek
+model: deepseek-v4-flash
 evaluation: LLM category mapping accuracy
 eval split: results/splits/mfp/test.jsonl
 ```

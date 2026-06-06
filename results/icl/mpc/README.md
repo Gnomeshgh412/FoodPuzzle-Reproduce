@@ -15,6 +15,7 @@ top_k: 3
 BM25 implementation: pure Python
 generation provider: DeepSeek
 evaluation provider: DeepSeek
+model: deepseek-v4-flash
 evaluation: official-code-aligned functional group set F1
 ```
 

@@ -14,6 +14,7 @@ eval split: results/splits/mfp/test.jsonl
 top_k: 3
 BM25 implementation: pure Python
 generation provider: DeepSeek
+model: deepseek-v4-flash
 evaluation: LLM category mapping accuracy
 ```
 

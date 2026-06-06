@@ -6,6 +6,8 @@
 
 当前复现使用论文描述、官方公开 task data、FlavorDB、official collected evidence 和公开 evaluation 思路进行 paper/code/data-aligned reconstruction。由于官方未完整公开 train/dev/test split、完整 Scientific Agent code、prompt 和 DSPy signature，本仓库不是 official exact reproduction。
 
+当前 formal results 使用 DeepSeek `deepseek-v4-flash`，不是原文 GPT-3.5 / Gemini / LLaMA3 设置；当前数值只用于本仓库 reconstructed split 内部比较，不与论文 Table 2 做严格数值比较。
+
 ## 2. 任务说明
 
 ### 2.1 MFP
@@ -148,7 +150,8 @@ BM25 ICL > Scientific Agent > Zero-shot
 2. Data and split
    - `split_data.py` 统一负责 MFP / MPC split；
    - 使用 fixed seed = 42、ratio = 80/10/10；
-   - train/dev/test = 568/71/71。
+   - MFP 总样本数为 709，实际落盘 train/dev/test = 567/71/71；
+   - MPC reconstructed 总样本数为 710，实际落盘 train/dev/test = 568/71/71。
 
 3. MFP prediction strategy
    - zero-shot 直接基于 molecule input 预测 food/category；
