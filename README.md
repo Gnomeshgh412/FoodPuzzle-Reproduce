@@ -6,7 +6,15 @@
 
 当前复现使用论文描述、官方公开 task data、FlavorDB、official collected evidence 和公开 evaluation 思路进行 paper/code/data-aligned reconstruction。由于官方未完整公开 train/dev/test split、完整 Scientific Agent code、prompt 和 DSPy signature，本仓库不是 official exact reproduction。
 
-当前 formal results 使用 DeepSeek `deepseek-v4-flash`，不是原文 GPT-3.5 / Gemini / LLaMA3 设置；当前数值只用于本仓库 reconstructed split 内部比较，不与论文 Table 2 做严格数值比较。
+现有冻结结果使用 DeepSeek `deepseek-v4-flash`，不是原文 GPT-3.5 / Gemini / LLaMA3 设置；当前数值只用于本仓库 reconstructed split 内部比较，不与论文 Table 2 做严格数值比较。
+
+新的多模型复现实验通过 AIHubMix 接入以下模型：
+
+- `coding-glm-4.7-free`
+- `gpt-4.1-free`
+- `xiaomi-mimo-v2.5-free`
+
+各模型结果统一写入 `results/<method>/<task>/<model>/`。现有 DeepSeek 冻结结果位于对应任务目录的 `deepseek-v4-flash/` 子目录。
 
 ## 2. 任务说明
 
@@ -21,9 +29,8 @@ MFP 是 Molecule-to-Food Prediction。
 
 MFP results：
 
-- `results/zero-shot/mfp/`
-- `results/icl/mfp/`
-- `results/agent/mfp/`
+- `results/Only-Deepseek/{zero-shot,icl,agent}/mfp/`
+- `results/Multi-Models/{zero-shot,icl,agent}/mfp/`
 
 ### 2.2 MPC
 
@@ -86,11 +93,9 @@ FoodPuzzle-Reproduce/
 - `reconstruct_mpc_data.py`：MPC 数据重建；
 - `split_data.py`：data split；
 - `validate_data.py`：数据与结果完整性检查；
-- `zero_shot.py`：zero-shot prediction；
-- `bm25_icl.py`：BM25 ICL prediction；
-- `scientific_agent.py`：Scientific Agent prediction；
-- `evaluation.py`：MFP / MPC evaluation；
-- `code/README.md`：代码说明。
+- `Only-Deepseek/`：DeepSeek 的 zero-shot、BM25 ICL、Scientific Agent、Multi-Agent、Optimized-Agent 和评测实现；
+- `Multi-Models/`：AIHubMix 多模型 zero-shot、BM25 ICL、Scientific Agent 和统一评测实现；
+- `code/README.md`：代码与运行入口说明。
 
 ### `data/`
 
@@ -101,11 +106,15 @@ FoodPuzzle-Reproduce/
 ### `results/`
 
 - `results/splits`：reconstructed train/dev/test split；
-- `results/zero-shot`：zero-shot results；
-- `results/icl`：BM25 ICL results；
-- `results/agent`：Scientific Agent results。
+- `results/Only-Deepseek`：仅 DeepSeek 的三种 baseline 结果与独立评测缓存；
+- `results/Multi-Models`：多模型的三种 baseline 结果与 GPT-4.1-free 共享评测缓存；
+- `results/Only-Deepseek/multi-agent`：DeepSeek Multi-Agent 冻结结果；
+- `results/Only-Deepseek/optimized-agent`：DeepSeek Optimized-Agent 冻结结果；
+- `results/Only-Deepseek/优化实验`：已执行的分轮优化实验与审查产物。
 
 ## 5. 当前正式结果
+
+下表为修改 MPC 官方兼容解析和共享 judge cache 之前的历史冻结结果。新的多模型实验完成后，应以 `results/<method>/<task>/<model>/` 中使用统一评测配置生成的结果为准。
 
 ### 5.1 MFP formal results
 
@@ -139,7 +148,33 @@ MPC 当前结果排序：
 BM25 ICL > Scientific Agent > Zero-shot
 ```
 
-## 6. 关键复现策略与最终决策
+## 6. AIHubMix 多模型复现
+
+四个生成模型分别使用对应环境变量；下列三个 AIHubMix 模型使用独立密钥，DeepSeek 使用 `DEEPSEEK_API_KEY`：
+
+```text
+AIHUBMIX_CODING_GLM_4_7_FREE_API_KEY
+AIHUBMIX_GPT_4_1_FREE_API_KEY
+AIHUBMIX_XIAOMI_MIMO_V2_5_FREE_API_KEY
+```
+
+正式 provider 名称如下：
+
+```text
+aihubmix-coding-glm-4.7-free
+aihubmix-gpt-4.1-free
+aihubmix-xiaomi-mimo-v2.5-free
+```
+
+MFP 和 MPC 的正式评测统一使用 `gpt-4.1-free`。MPC 中该模型负责预测分子的官能团映射，所有生成模型与方法共享：
+
+```text
+results/Multi-Models/shared_cache/gpt-4.1-free_functional_group_cache.json
+```
+
+cache metadata 会绑定 provider、model、endpoint、prompt 版本和 53 类词表哈希，避免其他 judge 意外复用同一路径。
+
+## 7. 关键复现策略与最终决策
 
 1. 任务边界
    - MFP 和 MPC 均保留 zero-shot、BM25 ICL、Scientific Agent 三条方法支线；

@@ -1,0 +1,24 @@
+{
+  "任务输出": "具体食物名称",
+  "候选数": 30,
+  "准入": "宏类别增益bootstrap下界>0；至少4/5折非负；具体食物accuracy不降；平均结构相似度>=BM25的90%",
+  "切分": "exact-profile分组五折OOF",
+  "唯一改动": "BM25 Top30 内的查询—候选关系排序",
+  "模型": "LogisticRegression(L2,C=1,fit_intercept=False,liblinear)",
+  "特征": [
+    "BM25",
+    "Jaccard",
+    "UniMol余弦",
+    "查询到食物Chamfer",
+    "食物到查询Chamfer"
+  ],
+  "禁止": [
+    "类别作为推理特征",
+    "类别posterior",
+    "食物名语义",
+    "正式test",
+    "超参数搜索",
+    "OOF失败后运行dev"
+  ],
+  "种子": 20260809
+}

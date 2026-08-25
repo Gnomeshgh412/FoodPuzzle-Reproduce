@@ -1,0 +1,25 @@
+{
+  "API上限": "训练Scientist最多568次；开发Scientist 0次；新官能团调用0次",
+  "ICL": "exact-full-profile分组五折OOF；BM25 K=3；每条query仅见target_food、partial_molecules、N；demo只来自外折fit",
+  "任务输出": "具体缺失分子集合",
+  "候选池": "H1 TopN并ICL；共识候选锁定；其余按学习分数补足exact-N",
+  "唯一改动": "H1与食品条件ICL共识锁定后，对来源不一致候选学习具体分子效用排序",
+  "开发集准入": "官方官能团F1增益下界>0；宏/微具体分子不降；>=4/5分块非负；71条exact-N",
+  "模型": "LogisticRegression(L2,C=1,fit_intercept=False,liblinear)",
+  "特征": [
+    "H1倒数名次",
+    "ICL倒数名次",
+    "跨源共识",
+    "H1 occurrence_score"
+  ],
+  "禁止": [
+    "官能团作为训练目标",
+    "新外部数据",
+    "正式test",
+    "查询级门控",
+    "超参数搜索",
+    "OOF失败后运行dev"
+  ],
+  "种子": 20260809,
+  "训练OOF准入": "query-wise AUC下界>0.5；宏/微具体分子F1增益下界>0；>=4/5折非负；全部exact-N"
+}

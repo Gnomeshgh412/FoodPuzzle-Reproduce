@@ -1,0 +1,1466 @@
+{
+  "停止条件执行": "具体食物仍为零恢复：停止继续微调同一开放提示词，重新识别知识来源瓶颈。",
+  "响应文件哈希": "d1e2aa58d0fe401635aeb78f270d230c80b4bb77d1b6996caf32eb3924bf480c",
+  "唯一变化": "保留BM25前二名，仅以一个开放生成具体食物替换第三名",
+  "实验": "MFP开放具体食物Scientist候选审查",
+  "指标": {
+    "具体食物召回配对bootstrap_95%下界": 0.0,
+    "基线Top3具体食物命中率": 0.0,
+    "基线Top3宏类别覆盖率": 0.6056338028169014,
+    "宏类别oracle配对bootstrap_95%下界": -0.15492957746478872,
+    "宏类别口径限制": "候选阶段仅用冻结 FlavorDB 映射；未映射开放食物不使用 Gold 反推，也未增加第二轮 LLM 类别映射调用。",
+    "开发集样本数": 71,
+    "开放食物Top1具体食物命中率": 0.0,
+    "开放食物Top1宏类别命中率": 0.0,
+    "开放食物可映射宏类别数": 2,
+    "开放食物未映射宏类别数": 63,
+    "收到响应数": 71,
+    "新Top3具体食物命中率": 0.0,
+    "新Top3宏类别覆盖率": 0.5211267605633803,
+    "新减基线Top3具体食物召回": 0.0,
+    "新减基线Top3宏类别oracle覆盖": -0.08450704225352113,
+    "有效响应数": 65,
+    "有效响应率": 0.9154929577464789,
+    "说明": "未知开放食物保留为未映射，不使用开发集真实标签反推类别。"
+  },
+  "硬门": {
+    "具体食物召回bootstrap下界大于0": false,
+    "宏类别Top3_oracle均值不下降": false,
+    "有效响应率至少0.95": false
+  },
+  "结论": "不准入",
+  "逐样本": [
+    {
+      "冻结BM25前二名": [
+        "Kombu",
+        "Persimmon"
+      ],
+      "原BM25第三名": "Thistle",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Buckwheat honey",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "601",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Red algae"
+    },
+    {
+      "冻结BM25前二名": [
+        "Beer",
+        "Malt"
+      ],
+      "原BM25第三名": "Champagne",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "烤麦芽面包",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "3",
+      "真实宏类别": "bakery",
+      "真实食物": "Rye Bread"
+    },
+    {
+      "冻结BM25前二名": [
+        "Other frozen dessert",
+        "Topping"
+      ],
+      "原BM25第三名": "Cake",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "发酵鱼露",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "640",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Cichlidae"
+    },
+    {
+      "冻结BM25前二名": [
+        "Currant",
+        "Red Currant"
+      ],
+      "原BM25第三名": "Bourbon Whisky",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "黑加仑果酱",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "161",
+      "真实宏类别": "fruit",
+      "真实食物": "White Currant"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Licorice root",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "445",
+      "真实宏类别": "cerealcrop",
+      "真实食物": "Annual wild rice"
+    },
+    {
+      "冻结BM25前二名": [
+        "Leavening agent",
+        "Ice cream"
+      ],
+      "原BM25第三名": "Pate",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "发酵面包",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "655",
+      "真实宏类别": "additive",
+      "真实食物": "Gelatin dessert"
+    },
+    {
+      "冻结BM25前二名": [
+        "Turnip",
+        "Chard"
+      ],
+      "原BM25第三名": "Green zucchini",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "707",
+      "真实宏类别": "fruit",
+      "真实食物": "Japanese pumpkin"
+    },
+    {
+      "冻结BM25前二名": [
+        "Yautia",
+        "Colorado pinyon"
+      ],
+      "原BM25第三名": "Epazote",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草浸膏",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "675",
+      "真实宏类别": "plant",
+      "真实食物": "Shea tree"
+    },
+    {
+      "冻结BM25前二名": [
+        "Nougat",
+        "Squab"
+      ],
+      "原BM25第三名": "Fruit preserve",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "发酵黑蒜",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "634",
+      "真实宏类别": "plantderivative",
+      "真实食物": "Cocoa butter"
+    },
+    {
+      "冻结BM25前二名": [
+        "Tofu",
+        "Miso"
+      ],
+      "原BM25第三名": "Soy yogurt",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Edamame",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "660",
+      "真实宏类别": "beverage",
+      "真实食物": "Soy milk"
+    },
+    {
+      "冻结BM25前二名": [
+        "Cognac Brandy",
+        "Canola Oil"
+      ],
+      "原BM25第三名": "Turkey Berry",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烤芝麻油",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "117",
+      "真实宏类别": "essentialoil",
+      "真实食物": "Red Sage"
+    },
+    {
+      "冻结BM25前二名": [
+        "Blackberry Brandy",
+        "Armagnac Brandy"
+      ],
+      "原BM25第三名": "Anise Brandy",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烤菠萝",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "11",
+      "真实宏类别": "beverage",
+      "真实食物": "Brandy"
+    },
+    {
+      "冻结BM25前二名": [
+        "Millet",
+        "Kale"
+      ],
+      "原BM25第三名": "Breakfast cereal",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "荞麦茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "566",
+      "真实宏类别": "vegetable",
+      "真实食物": "Yam"
+    },
+    {
+      "冻结BM25前二名": [
+        "Beef Processed",
+        "Pork"
+      ],
+      "原BM25第三名": "Beef",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "257",
+      "真实宏类别": "meat",
+      "真实食物": "Chicken"
+    },
+    {
+      "冻结BM25前二名": [
+        "Cassia",
+        "Basil"
+      ],
+      "原BM25第三名": "Lemon Grass",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "541",
+      "真实宏类别": "herb",
+      "真实食物": "Roselle"
+    },
+    {
+      "冻结BM25前二名": [
+        "Millet",
+        "Kale"
+      ],
+      "原BM25第三名": "Breakfast cereal",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "荞麦茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "479",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Burbot"
+    },
+    {
+      "冻结BM25前二名": [
+        "Laurel",
+        "Allspice"
+      ],
+      "原BM25第三名": "Mint",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "肉桂皮",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "390",
+      "真实宏类别": "herb",
+      "真实食物": "Safflower"
+    },
+    {
+      "冻结BM25前二名": [
+        "Scotch Whisky",
+        "Japanese Whisky"
+      ],
+      "原BM25第三名": "Finnish Whisky",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Peated Islay Single Malt Scotch Whisky",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "394",
+      "真实宏类别": "beverage",
+      "真实食物": "Arabica coffee"
+    },
+    {
+      "冻结BM25前二名": [
+        "Blue Cheese",
+        "Cream Cheese"
+      ],
+      "原BM25第三名": "Swiss Cheese",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "65",
+      "真实宏类别": "dairy",
+      "真实食物": "Cheddar Cheese"
+    },
+    {
+      "冻结BM25前二名": [
+        "Yautia",
+        "Colorado pinyon"
+      ],
+      "原BM25第三名": "Epazote",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "甘草浸膏",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "676",
+      "真实宏类别": null,
+      "真实食物": "Oil-seed Camellia"
+    },
+    {
+      "冻结BM25前二名": [
+        "Yautia",
+        "Colorado pinyon"
+      ],
+      "原BM25第三名": "Epazote",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草浸膏",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "677",
+      "真实宏类别": "plant",
+      "真实食物": "Ucuhuba"
+    },
+    {
+      "冻结BM25前二名": [
+        "Plum",
+        "Quince"
+      ],
+      "原BM25第三名": "Apricot",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "青梅酒",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "156",
+      "真实宏类别": "fruit",
+      "真实食物": "Cherimoya"
+    },
+    {
+      "冻结BM25前二名": [
+        "Cornmint",
+        "Peppermint"
+      ],
+      "原BM25第三名": "Spearmint",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "薄荷巧克力冰淇淋",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "112",
+      "真实宏类别": "essentialoil",
+      "真实食物": "Mentha Oil"
+    },
+    {
+      "冻结BM25前二名": [
+        "Tea",
+        "Green Tea"
+      ],
+      "原BM25第三名": "Tobacco",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "红茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "48",
+      "真实宏类别": "beverage",
+      "真实食物": "Black Tea"
+    },
+    {
+      "冻结BM25前二名": [
+        "Myrtle",
+        "Eucalyptus"
+      ],
+      "原BM25第三名": "Mastic Gum",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "桉树蜂蜜",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "93",
+      "真实宏类别": "essentialoil",
+      "真实食物": "Arar"
+    },
+    {
+      "冻结BM25前二名": [
+        "Millet",
+        "Kale"
+      ],
+      "原BM25第三名": "Breakfast cereal",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "荞麦茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "505",
+      "真实宏类别": "fruit",
+      "真实食物": "Groundcherry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Yautia",
+        "Colorado pinyon"
+      ],
+      "原BM25第三名": "Epazote",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草浸膏",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "521",
+      "真实宏类别": "plant",
+      "真实食物": "Alpine sweetvetch"
+    },
+    {
+      "冻结BM25前二名": [
+        "Scotch Whisky",
+        "Butter"
+      ],
+      "原BM25第三名": "Fatty Fish",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烟熏猪肉香肠",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "141",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Lean Fish"
+    },
+    {
+      "冻结BM25前二名": [
+        "Nougat",
+        "Squab"
+      ],
+      "原BM25第三名": "Fruit preserve",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烤榛子",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "632",
+      "真实宏类别": "additive",
+      "真实食物": "Syrup"
+    },
+    {
+      "冻结BM25前二名": [
+        "Other frozen dessert",
+        "Topping"
+      ],
+      "原BM25第三名": "Cake",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "鱼露",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "652",
+      "真实宏类别": "bakery",
+      "真实食物": "Tortilla chip"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "408",
+      "真实宏类别": "fruit",
+      "真实食物": "Mulberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Millet",
+        "Kale"
+      ],
+      "原BM25第三名": "Breakfast cereal",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Buckwheat",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": "herb",
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "597",
+      "真实宏类别": "plant",
+      "真实食物": "Oil palm"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Licorice root",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "438",
+      "真实宏类别": "fruit",
+      "真实食物": "Deerberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Licorice root",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "598",
+      "真实宏类别": "plant",
+      "真实食物": "Sago palm"
+    },
+    {
+      "冻结BM25前二名": [
+        "Green Beans",
+        "Mushroom"
+      ],
+      "原BM25第三名": "Rice",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "269",
+      "真实宏类别": "nutseed",
+      "真实食物": "Beans"
+    },
+    {
+      "冻结BM25前二名": [
+        "Other frozen dessert",
+        "Topping"
+      ],
+      "原BM25第三名": "Cake",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "发酵鱼露",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "551",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Sheefish"
+    },
+    {
+      "冻结BM25前二名": [
+        "Nougat",
+        "Squab"
+      ],
+      "原BM25第三名": "Fruit preserve",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "烤榛子",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "687",
+      "真实宏类别": "bakery",
+      "真实食物": "Other bread product"
+    },
+    {
+      "冻结BM25前二名": [
+        "Spearmint",
+        "Peppermint"
+      ],
+      "原BM25第三名": "Mastic Gum",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "薄荷巧克力冰淇淋",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "252",
+      "真实宏类别": "herb",
+      "真实食物": "Scotch Spearmint"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Licorice root",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "702",
+      "真实宏类别": "fruit",
+      "真实食物": "Chinese bayberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Green Beans",
+        "Filbert"
+      ],
+      "原BM25第三名": "Parmesan Cheese",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烤榛子",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "271",
+      "真实宏类别": "nutseed",
+      "真实食物": "Kidney Beans"
+    },
+    {
+      "冻结BM25前二名": [
+        "Bergamot",
+        "Jasmine"
+      ],
+      "原BM25第三名": "Ylang-Ylang",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Concord grape",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "146",
+      "真实宏类别": "flower",
+      "真实食物": "Champaca"
+    },
+    {
+      "冻结BM25前二名": [
+        "Silver linden",
+        "Salmonberry"
+      ],
+      "原BM25第三名": "Hard wheat",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "甘草浸膏",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "469",
+      "真实宏类别": "vegetable",
+      "真实食物": "Arrowroot"
+    },
+    {
+      "冻结BM25前二名": [
+        "Black huckleberry",
+        "Kai lan"
+      ],
+      "原BM25第三名": "Black crowberry",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "405",
+      "真实宏类别": "herb",
+      "真实食物": "Mexican oregano"
+    },
+    {
+      "冻结BM25前二名": [
+        "Millet",
+        "Kale"
+      ],
+      "原BM25第三名": "Breakfast cereal",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "荞麦茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "511",
+      "真实宏类别": "vegetable",
+      "真实食物": "Jerusalem artichoke"
+    },
+    {
+      "冻结BM25前二名": [
+        "Raspberry",
+        "Pumpkin"
+      ],
+      "原BM25第三名": "Naranjilla",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Buckwheat honey",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "217",
+      "真实宏类别": "fruit",
+      "真实食物": "Loganberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Lettuce",
+        "Loquat"
+      ],
+      "原BM25第三名": "Green Beans",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "322",
+      "真实宏类别": "vegetable",
+      "真实食物": "Endive"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ginseng",
+        "Grass pea"
+      ],
+      "原BM25第三名": "Lupine",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Licorice root",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "580",
+      "真实宏类别": "plant",
+      "真实食物": "Rowal"
+    },
+    {
+      "冻结BM25前二名": [
+        "Bilberry",
+        "Broccoli"
+      ],
+      "原BM25第三名": "Red Currant",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "绿茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "216",
+      "真实宏类别": "fruit",
+      "真实食物": "Lingonberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Cream Cheese",
+        "Munster Cheese"
+      ],
+      "原BM25第三名": "Tilsit Cheese",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "熟成蓝纹奶酪",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "67",
+      "真实宏类别": "dairy",
+      "真实食物": "Cottage Cheese"
+    },
+    {
+      "冻结BM25前二名": [
+        "Rice",
+        "Peanut"
+      ],
+      "原BM25第三名": "Filbert",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "274",
+      "真实宏类别": "nutseed",
+      "真实食物": "Soybean"
+    },
+    {
+      "冻结BM25前二名": [
+        "Black huckleberry",
+        "Kai lan"
+      ],
+      "原BM25第三名": "Black crowberry",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "410",
+      "真实宏类别": "herb",
+      "真实食物": "Evening primrose"
+    },
+    {
+      "冻结BM25前二名": [
+        "Chive",
+        "Onion"
+      ],
+      "原BM25第三名": "Garlic",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草糖",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "323",
+      "真实宏类别": "vegetable",
+      "真实食物": "Leek"
+    },
+    {
+      "冻结BM25前二名": [
+        "Leavening agent",
+        "Ice cream"
+      ],
+      "原BM25第三名": "Pate",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "发酵面包",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "695",
+      "真实宏类别": "dish",
+      "真实食物": "Other dish"
+    },
+    {
+      "冻结BM25前二名": [
+        "Rosemary",
+        "Winter savory"
+      ],
+      "原BM25第三名": "Summer savory",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "甘草",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "234",
+      "真实宏类别": "herb",
+      "真实食物": "Artemisia"
+    },
+    {
+      "冻结BM25前二名": [
+        "Cognac Brandy",
+        "Scotch Whisky"
+      ],
+      "原BM25第三名": "Japanese Whisky",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "烤猪排",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "57",
+      "真实宏类别": "cerealcrop",
+      "真实食物": "Corn Oil"
+    },
+    {
+      "冻结BM25前二名": [
+        "Broccoli",
+        "Cabbage"
+      ],
+      "原BM25第三名": "Brussels Sprout",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "绿茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "332",
+      "真实宏类别": "vegetable",
+      "真实食物": "Cauliflower"
+    },
+    {
+      "冻结BM25前二名": [
+        "Loquat",
+        "Pitanga"
+      ],
+      "原BM25第三名": "Roseapple",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "杏子",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "224",
+      "真实宏类别": "fruit",
+      "真实食物": "Kumquat"
+    },
+    {
+      "冻结BM25前二名": [
+        "Scarlet bean",
+        "Pigeon Pea"
+      ],
+      "原BM25第三名": "Mung bean",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "烤大豆",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "570",
+      "真实宏类别": null,
+      "真实食物": "Black-eyed pea"
+    },
+    {
+      "冻结BM25前二名": [
+        "Tofu",
+        "Miso"
+      ],
+      "原BM25第三名": "Beer",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "发酵大豆酱",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "276",
+      "真实宏类别": "plantderivative",
+      "真实食物": "Soybean Sauce"
+    },
+    {
+      "冻结BM25前二名": [
+        "Welsh onion",
+        "Breadfruit"
+      ],
+      "原BM25第三名": "European chestnut",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Buckwheat honey",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "388",
+      "真实宏类别": "herb",
+      "真实食物": "Borage"
+    },
+    {
+      "冻结BM25前二名": [
+        "Yautia",
+        "Colorado pinyon"
+      ],
+      "原BM25第三名": "Epazote",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "烤杏仁",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "473",
+      "真实宏类别": "nutseed",
+      "真实食物": "Beech nut"
+    },
+    {
+      "冻结BM25前二名": [
+        "Apple",
+        "White Wine"
+      ],
+      "原BM25第三名": "Cognac Brandy",
+      "响应有效": false,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [
+        "开放具体食物为空"
+      ],
+      "样本编号": "167",
+      "真实宏类别": "fruit",
+      "真实食物": "Grape"
+    },
+    {
+      "冻结BM25前二名": [
+        "Green zucchini",
+        "Wheat"
+      ],
+      "原BM25第三名": "Beetroot",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "绿茶",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "704",
+      "真实宏类别": "vegetable",
+      "真实食物": "Yellow zucchini"
+    },
+    {
+      "冻结BM25前二名": [
+        "Other frozen dessert",
+        "Topping"
+      ],
+      "原BM25第三名": "Cake",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "酸面包",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "546",
+      "真实宏类别": "fishseafood",
+      "真实食物": "Atlantic salmon"
+    },
+    {
+      "冻结BM25前二名": [
+        "Guava",
+        "Apricot"
+      ],
+      "原BM25第三名": "Strawberry",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Passion fruit",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "175",
+      "真实宏类别": "fruit",
+      "真实食物": "Mango"
+    },
+    {
+      "冻结BM25前二名": [
+        "Nougat",
+        "Squab"
+      ],
+      "原BM25第三名": "Fruit preserve",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "发酵黑蒜",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "623",
+      "真实宏类别": "additive",
+      "真实食物": "Sugar substitute"
+    },
+    {
+      "冻结BM25前二名": [
+        "Limburger Cheese",
+        "Domiati Cheese"
+      ],
+      "原BM25第三名": "Emmental Cheese",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "Muenster Cheese",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "73",
+      "真实宏类别": "dairy",
+      "真实食物": "Gruyere Cheese"
+    },
+    {
+      "冻结BM25前二名": [
+        "Green Beans",
+        "Olive"
+      ],
+      "原BM25第三名": "Asparagus",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "Green Tea",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": "beverage",
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "273",
+      "真实宏类别": "nutseed",
+      "真实食物": "Peas"
+    },
+    {
+      "冻结BM25前二名": [
+        "Bilberry",
+        "Strawberry"
+      ],
+      "原BM25第三名": "Raspberry",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "蓝莓",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "214",
+      "真实宏类别": "fruit",
+      "真实食物": "Cranberry"
+    },
+    {
+      "冻结BM25前二名": [
+        "Ricotta Cheese",
+        "Asafoetida"
+      ],
+      "原BM25第三名": "Cardamom",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": false,
+      "开放具体食物": "杜松子酒",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": false,
+      "无效原因": [],
+      "样本编号": "363",
+      "真实宏类别": "herb",
+      "真实食物": "Curry Leaf"
+    },
+    {
+      "冻结BM25前二名": [
+        "Butter",
+        "Apple Cider Vinegar"
+      ],
+      "原BM25第三名": "Swiss Cheese",
+      "响应有效": true,
+      "基线Top3具体食物命中": false,
+      "基线Top3宏类别覆盖": true,
+      "开放具体食物": "烤牛肉",
+      "开放食物Top1具体食物命中": false,
+      "开放食物Top1宏类别命中": false,
+      "开放食物映射宏类别": null,
+      "新Top3具体食物命中": false,
+      "新Top3宏类别覆盖": true,
+      "无效原因": [],
+      "样本编号": "379",
+      "真实宏类别": "dairy",
+      "真实食物": "Paneer"
+    }
+  ]
+}

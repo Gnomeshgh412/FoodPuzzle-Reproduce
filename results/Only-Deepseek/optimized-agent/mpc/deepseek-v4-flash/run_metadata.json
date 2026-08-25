@@ -1,0 +1,134 @@
+{
+  "ablation": "full",
+  "agent_type": "grouped_oof_candidate_action_scientist_reviewer_agent",
+  "completed_at": "2026-07-30T22:51:21+08:00",
+  "evaluation": {
+    "average_f1": 0.6538672135934195,
+    "average_iou": 0.5118679644424516,
+    "average_precision": 0.6117529062912532,
+    "average_recall": 0.7097336374258896,
+    "cache_hit_count": 400,
+    "extra_predictions": 0,
+    "failed_functional_group_prediction_count": 39,
+    "gold_group_lookup_failures": 0,
+    "llm_functional_group_prediction_count": 3,
+    "matched_ids": 71,
+    "missing_predictions": 0,
+    "mpc_eval_mode": "official_llm",
+    "parse_failures": 0,
+    "predicted_count_not_equal_n": 0,
+    "samples_evaluated": 71,
+    "total_gold": 71,
+    "total_predictions": 71,
+    "unique_predicted_molecule_count": 403,
+    "unique_unmapped_predicted_molecule_count": 9,
+    "unmapped_predicted_molecule_count": 39,
+    "zero_f1_count": 2
+  },
+  "evaluation_protocol": {
+    "functional_group_cache": {
+      "path": "results/Only-Deepseek/shared_cache/deepseek-v4-flash_functional_group_cache.json",
+      "sha256": "0a4a48e8b95ff5d2bfbe6553474e18eee98b6349e9987d9aab300f837c68766b"
+    },
+    "functional_group_cache_metadata": {
+      "path": "results/Only-Deepseek/shared_cache/deepseek-v4-flash_functional_group_cache.json.metadata.json",
+      "sha256": "4d7784a0a934a244caa088fd227a5a7c6b14af69e1c55d99905486c5bda5c629"
+    },
+    "judge_model": "deepseek-v4-flash",
+    "judge_provider": "deepseek",
+    "mode": "official_llm_functional_group_f1"
+  },
+  "files": {
+    "code": {
+      "evaluation.py": "d444818829e651425d339f3146d5ca53e857210d3eb3839ddc9ca1323666f835",
+      "optimized_agent.py": "68d9456a37cf4792033a8ac2641b346bbf2ef41dbc4c9c700e7931480d1bdaed",
+      "run_optimized_agent.sh": "70ce4fd84fdcfdbdd970a4a69a9caec7cd995ab95844f164946486e33b994c0a",
+      "scientific_agent.py": "4ebaeaf438ac8fde02af5f2af1e4db6fda6f94244766fa6b462fd159f8e5d686"
+    },
+    "data": {
+      "db": {
+        "path": "data/raw/flavordb.db",
+        "sha256": "f377cac1186ae8572ffe7855dc93c84fbb538727b34caf6d1a81f0b3a199e259"
+      },
+      "evidence": {
+        "path": "data/collected_evidences/collected_evidences_task2.pkl",
+        "sha256": "230100bbe14f2c3c57c9eb2c03a44e9c85fc3be1d6f5d6f6a1ac82919e06dde1"
+      },
+      "test": {
+        "path": "results/splits/mpc/test.jsonl",
+        "sha256": "f9e5ec2bd57902d3c17cb6346b166bb19758426a53e27f5789eb24314d57aa8c"
+      },
+      "train": {
+        "path": "results/splits/mpc/train.jsonl",
+        "sha256": "f81dd4d297162ab2b8cbfc3f0827fd9162e2f4b0abe77a87c434ef1e702ed242"
+      }
+    },
+    "outputs": {
+      "evaluation_details.jsonl": "96414a357a605151c17fb2c09ba6d1c88b3bd98620deeb31cf6f485b5a484d33",
+      "evaluation_summary.json": "7e323d8dc597c71bdca0489ca7c27906d66099aac5cdaa05e213e21ef07d275e",
+      "evidence_metadata.jsonl": "ea5ff1437722e46933c1f5ddead39f898bac53c2d9f5bc74f770668bf7f45d1a",
+      "hypotheses_metadata.jsonl": "841b808b9ca16f342c1e9e22a3d1316372c5bd35e0f162594cbd4af24b59f95e",
+      "predictions.jsonl": "2cf66a872683b6c49e96eeda4a53dbea6dd4b6c3887f92b2c6a8aa559ce7a17f",
+      "retrieval_metadata.jsonl": "8a881f9ad2c4df0473c18e6f97b9c90b70b9a7efa142319107b8c8ccd0515b7a"
+    }
+  },
+  "generation": {
+    "bm25_top_k": 3,
+    "evidence_molecule_limit": null,
+    "max_structure_candidates": 300,
+    "mfp_category_fusion": null,
+    "mfp_category_oof_folds": null,
+    "mfp_max_snippets_per_molecule": null,
+    "mfp_reviewer_probability_ratio": null,
+    "mfp_unimol_adapter": null,
+    "mpc_action_policy": "train_only_grouped_oof_bootstrap_admitted_local_exchange",
+    "mpc_candidate_catalog": "flavordb_catalog_plus_training_profiles",
+    "mpc_evidence_changes_structure_score": false,
+    "mpc_fusion_calls_per_reviewed_sample": 0,
+    "mpc_global_rank_fusion": false,
+    "mpc_max_evidence_snippets": 10,
+    "mpc_method_reads_functional_group_evaluation_cache": false,
+    "mpc_primary_ranker": "masked_query_pairwise_positive_unlabeled_occurrence",
+    "mpc_ranker_training": "task_shaped_pairwise_positive_unlabeled_completion",
+    "mpc_residual_calibration": "train_only_grouped_oof_with_strict_zero_budget_fallback",
+    "mpc_residual_selection_metric": "macro_hidden_molecule_set_f1",
+    "mpc_retrieval": "idf_weighted_partial_and_food_profile_retrieval",
+    "mpc_reviewer_calls_per_reviewed_sample": 1,
+    "mpc_reviewer_disagreement_threshold": null,
+    "mpc_reviewer_margin_threshold": null,
+    "mpc_scientist_calls_per_reviewed_sample": 1,
+    "mpc_set_decoder": "single_grouped_oof_admitted_boundary_exchange_or_h1",
+    "mpc_structural_hypothesis": null,
+    "mpc_unimol_used": false,
+    "structure_top_k": 30,
+    "uses_llm": true
+  },
+  "git_commit": null,
+  "method": "optimized_agent_v12",
+  "model": "deepseek-v4-flash",
+  "notes": [
+    "MFP and MPC are trained and inferred independently.",
+    "MFP uses frozen single-conformer UniMol; MPC does not load or use UniMol.",
+    "MPC molecule-local FlavorDB descriptors and functional groups never use entity_molecule_link or the LLM functional-group evaluation cache.",
+    "MFP category-conditioned UniMol set fusion is selected by deterministic class-aware training-only out-of-fold calibration.",
+    "MPC trains on the task-shaped empirical observation process with low-capacity pairwise positive-unlabeled comparisons.",
+    "MPC retrieval actions use an independent FlavorDB-plus-training candidate catalog and IDF-weighted profile retrieval.",
+    "An MPC boundary exchange is exposed to the Scientist and Reviewer only after positive train-only grouped-OOF hidden-molecule utility with bootstrap admission; otherwise inference collapses exactly to H1.",
+    "MPC evidence is relation typed: only direct occurrence evidence grounds textual presence, while sensory or functional relations cannot establish occurrence.",
+    "The Scientist audits every admitted action and the Reviewer can accept at most one evidence-grounded action or ABSTAIN to H1.",
+    "The final MPC executor is deterministic, exact-N, and makes no fusion language-model call.",
+    "The v12 inference method does not select policies against the released functional-group metric and uses no N bucket rules.",
+    "No Git commit identifies this run; SHA-256 values bind the formal artifacts."
+  ],
+  "provider": "deepseek",
+  "split": {
+    "is_official_split": false,
+    "seed": 42,
+    "strategy": "reconstructed",
+    "test_samples": 71,
+    "train_test_id_overlap": 0
+  },
+  "started_at": "2026-07-30T22:30:12+08:00",
+  "status": "complete",
+  "task": "mpc"
+}

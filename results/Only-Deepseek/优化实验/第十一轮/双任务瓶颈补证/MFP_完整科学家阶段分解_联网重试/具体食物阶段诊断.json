@@ -1,0 +1,9 @@
+{
+  "样本数": 71,
+  "Scientist有效三候选样本数": 71,
+  "Scientist_Top1具体食物命中数": 1,
+  "Scientist_Top3具体食物召回数": 2,
+  "Reviewer具体食物命中数": 0,
+  "Reviewer似乎直接输出宏类别的样本数": 0,
+  "说明": "具体食物仅作诊断；官方宏类别 accuracy 需分别评测三个 Scientist 候选和 Reviewer。"
+}

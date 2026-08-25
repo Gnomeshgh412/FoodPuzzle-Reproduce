@@ -1,0 +1,23 @@
+{
+  "average_f1": 0.535462676567906,
+  "average_iou": 0.3939550163534486,
+  "average_precision": 0.6032355511093669,
+  "average_recall": 0.49858732723165317,
+  "cache_hit_count": 1522,
+  "extra_predictions": 0,
+  "failed_functional_group_prediction_count": 150,
+  "gold_group_lookup_failures": 0,
+  "llm_functional_group_prediction_count": 0,
+  "matched_ids": 71,
+  "missing_predictions": 0,
+  "mpc_eval_mode": "official_llm",
+  "parse_failures": 0,
+  "predicted_count_not_equal_n": 9,
+  "samples_evaluated": 71,
+  "total_gold": 71,
+  "total_predictions": 71,
+  "unique_predicted_molecule_count": 1522,
+  "unique_unmapped_predicted_molecule_count": 115,
+  "unmapped_predicted_molecule_count": 150,
+  "zero_f1_count": 5
+}

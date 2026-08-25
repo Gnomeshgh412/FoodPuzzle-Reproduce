@@ -1,295 +1,56 @@
 # code/ README
 
-## 1. 目录用途
+## 目录用途
 
-`code/` 保存 FoodPuzzle 复现用的核心脚本，当前主要支持 MFP 和 MPC 两条支线：
+`code/` 保存 FoodPuzzle MFP 和 MPC 的数据处理、baseline、Agent 与评测代码。当前代码按 provider 和实验主线分开，不在源码中保存 API key。
 
-- MFP: Molecule Flavor Prediction；
-- MPC: Molecule Profile Completion。
+## 共享数据工具
 
-## 2. 文件说明
+- `reconstruct_mpc_data.py`：从公开 MPC task 和 FlavorDB 重建 `partial_molecules` 与 `n`。
+- `split_data.py`：使用固定 seed 生成 MFP / MPC reconstructed train/dev/test split。
+- `validate_data.py`：检查 JSONL、SQLite schema、数据与 split 的基本完整性。
 
-### `reconstruct_mpc_data.py`
+## DeepSeek 复现
 
-功能：
+`Only-Deepseek/` 包含：
 
-- 从公开 `data/processed/MPC_tasks.jsonl` 和 `data/raw/flavordb.db` 重建 MPC 可用输入；
-- 根据 FlavorDB 中 food 的 full molecule set 与 MPC gold `missing_molecules` 生成 `partial_molecules` 和 `n`；
-- 只负责 MPC reconstruction，不负责 train/dev/test split；
-- 不调用 LLM/API。
+- `zero_shot.py`：zero-shot baseline；
+- `bm25_icl.py`：BM25 in-context learning baseline；
+- `scientific_agent.py`：Scientist / Reviewer Agent baseline；
+- `multi_agent.py`：异构 Multi-Agent 实验；
+- `optimized_agent.py`：当前优化 Agent 研究源码；
+- `evaluation.py`：MFP 类别映射与 MPC 官能团评测。
 
-支持任务：
+对应 runner：
 
-- MPC only。
+```bash
+bash scripts/run_only_deepseek_mpc.sh
+bash scripts/run_multi_agent.sh
+bash scripts/run_optimized_agent.sh all
+```
 
-输入：
+`run_optimized_agent.sh` 会检查版本和元数据兼容性。运行前应先阅读根目录的交接与审计记录，避免用当前研究源码覆盖历史冻结结果。
 
-- `data/processed/MPC_tasks.jsonl`
-- `data/raw/flavordb.db`
+## AIHubMix 多模型复现
 
-输出：
+`Multi-Models/` 包含 zero-shot、BM25 ICL、Scientific Agent 和统一评测代码。正式 provider 名称为：
 
-- `data/processed/MPC_reconstructed_tasks.jsonl`
+- `aihubmix-coding-glm-4.7-free`
+- `aihubmix-gpt-4.1-free`
+- `aihubmix-xiaomi-mimo-v2.5-free`
 
-### `split_data.py`
+运行入口：
 
-功能：
+```bash
+bash scripts/run_multi_models.sh
+```
 
-- 统一负责 MFP 和 MPC 的 train/dev/test split；
-- 使用 seed 和 ratio 做 row-level reconstructed split；
-- 不调用 LLM/API。
+MPC 多模型评测使用独立的 GPT-4.1-free 官能团 cache；它与 DeepSeek cache 不互相复用。
 
-支持任务：
+## 安全与复现边界
 
-- MFP；
-- MPC。
-
-MFP 输入：
-
-- `data/processed/MFP_tasks.jsonl`
-
-MFP 输出：
-
-- `results/splits/mfp/train.jsonl`
-- `results/splits/mfp/dev.jsonl`
-- `results/splits/mfp/test.jsonl`
-- `results/splits/mfp/train_ids.txt`
-- `results/splits/mfp/dev_ids.txt`
-- `results/splits/mfp/test_ids.txt`
-- `results/splits/mfp/split_metadata.json`
-
-MPC 输入：
-
-- `data/processed/MPC_reconstructed_tasks.jsonl`
-
-MPC 输出：
-
-- `results/splits/mpc/train.jsonl`
-- `results/splits/mpc/dev.jsonl`
-- `results/splits/mpc/test.jsonl`
-
-### `validate_data.py`
-
-功能：
-
-- 检查 raw / processed data、MPC reconstructed data、MPC split 和 FlavorDB schema；
-- 用于确认文件存在、JSONL 可解析、SQLite 表结构可读取；
-- 不调用 LLM/API；
-- 不修改 formal results。
-
-支持任务：
-
-- shared。
-
-输入：
-
-- `data/raw/flavordb.db`
-- `data/processed/MFP_tasks.jsonl`
-- `data/processed/MPC_tasks.jsonl`
-- `data/processed/MPC_reconstructed_tasks.jsonl`
-- `results/splits/mpc/train.jsonl`
-- `results/splits/mpc/dev.jsonl`
-- `results/splits/mpc/test.jsonl`
-
-输出：
-
-- stdout audit；
-- 不写 result 文件。
-
-### `zero_shot.py`
-
-功能：
-
-- 运行 zero-shot prediction；
-- 支持 `--task mfp` / `--task mpc`；
-- 使用 `--use-llm` 时调用 LLM/API；
-- 支持 `--resume`。
-
-支持任务：
-
-- MFP；
-- MPC。
-
-MFP 输入：
-
-- `results/splits/mfp/test.jsonl`
-
-MFP 输出：
-
-- `results/zero-shot/mfp/predictions.jsonl`
-
-MPC 输入：
-
-- `results/splits/mpc/test.jsonl`
-
-MPC prompt 使用 test sample 的 input-visible fields：
-
-- `target_food`
-- `partial_molecules`
-- `n`
-
-MPC 输出：
-
-- `results/zero-shot/mpc/predictions.jsonl`
-
-### `bm25_icl.py`
-
-功能：
-
-- 运行 BM25 in-context learning prediction；
-- 输出 retrieval metadata；
-- 支持 `--task mfp` / `--task mpc`；
-- 使用 `--use-llm` 时调用 LLM/API；
-- 支持 `--resume`。
-
-支持任务：
-
-- MFP；
-- MPC。
-
-MFP 输入：
-
-- train: `results/splits/mfp/train.jsonl`
-- test: `results/splits/mfp/test.jsonl`
-
-MFP 输出：
-
-- `results/icl/mfp/predictions.jsonl`
-- `results/icl/mfp/retrieval_metadata.jsonl`
-
-MPC 输入：
-
-- train: `results/splits/mpc/train.jsonl`
-- test: `results/splits/mpc/test.jsonl`
-
-MPC 输出：
-
-- `results/icl/mpc/predictions.jsonl`
-- `results/icl/mpc/retrieval_metadata.jsonl`
-
-### `scientific_agent.py`
-
-功能：
-
-- 运行 Scientific Agent prediction；
-- 支持 BM25 demonstrations、local evidence、Scientist / Reviewer 流程；
-- 支持 `--task mfp` / `--task mpc`；
-- 使用 `--use-llm` 时调用 LLM/API；
-- 支持 `--resume`。
-
-支持任务：
-
-- MFP；
-- MPC。
-
-MFP 输入：
-
-- train: `results/splits/mfp/train.jsonl`
-- test: `results/splits/mfp/test.jsonl`
-- evidence: official task1 / MFP evidence file，按当前 MFP formal run 配置指定；
-
-MFP 输出：
-
-- `results/agent/mfp/predictions.jsonl`
-- `results/agent/mfp/retrieval_metadata.jsonl`
-- `results/agent/mfp/evidence_metadata.jsonl`
-- `results/agent/mfp/hypotheses_metadata.jsonl`
-
-MPC 输入：
-
-- train: `results/splits/mpc/train.jsonl`
-- test: `results/splits/mpc/test.jsonl`
-- evidence: `data/collected_evidences/collected_evidences_task2.pkl`
-
-MPC formal Agent 使用：
-
-- official task2 food-centered evidence: `data/collected_evidences/collected_evidences_task2.pkl`；
-- BM25 demonstrations top-k = 3；
-- evidence snippets = 10；
-- `reviewer_evidence_mode = none`；
-- exact-n prompt；
-- protocol-constrained output normalization。
-
-MPC 输出：
-
-- `results/agent/mpc/predictions.jsonl`
-- `results/agent/mpc/retrieval_metadata.jsonl`
-- `results/agent/mpc/evidence_metadata.jsonl`
-- `results/agent/mpc/hypothesis_metadata.jsonl`
-
-MPC normalization 只使用：
-
-- model output；
-- input `partial_molecules`；
-- input `n`。
-
-它不使用 gold `missing_molecules`，不使用 zero-shot / ICL predictions，不使用 FlavorDB full molecule list 作为 evidence。
-
-### `evaluation.py`
-
-功能：
-
-- 运行 MFP / MPC evaluation；
-- 不重新生成 predictions；
-- 使用 `--use-llm` 时可能调用 LLM/API。
-
-支持任务：
-
-- MFP；
-- MPC。
-
-MFP 输入：
-
-- gold: MFP test split；
-- pred: MFP prediction file；
-- db: `data/raw/flavordb.db`。
-
-MFP 输出：
-
-- `results/zero-shot/mfp/evaluation_details.jsonl`
-- `results/icl/mfp/evaluation_details.jsonl`
-- `results/agent/mfp/evaluation_details.jsonl`
-- summary 输出按具体 MFP formal run 配置保存。
-
-MPC 输入：
-
-- gold: `results/splits/mpc/test.jsonl`；
-- pred: 对应方法的 `predictions.jsonl`；
-- db: `data/raw/flavordb.db`。
-
-MPC 输出：
-
-- `evaluation_details.jsonl`
-- `evaluation_summary.json`
-- `predicted_functional_group_cache.json`
-
-MPC formal evaluation 使用 `official_llm`：
-
-- gold `missing_molecules` 通过 FlavorDB 映射到 `functional_groups`；
-- predicted `predicted_molecules` 通过 LLM functional group extraction 映射到 official fixed 53-item functional group vocabulary；
-- 使用 functional group set precision / recall / F1；
-- `predicted_count != n` 只作为诊断字段，不作为 error；
-- empty prediction 合法处理为 F1=0；
-- functional group cache 用于 resume 和减少重复 LLM 调用，不改变 evaluation 逻辑。
-
-MPC evaluation 任务是 missing molecule list completion。原文评价思路是 functional group set precision / recall / F1：gold `missing_molecules` 需要用 FlavorDB 映射到 functional groups，predicted `predicted_molecules` 需要通过 LLM functional group extraction 映射到固定 vocabulary。因此 MPC evaluation 命令需要 `--db`、`--use-llm`、`--mpc-eval-mode official_llm`、`--functional-group-cache`、`--save-details` 和 `--save-summary-json`。
-
-## 3. 重要边界
-
-1. MPC 是 FlavorDB-derived reconstruction；
-2. official split 未公开，当前 split 是 seed=42 的 reconstructed split；
-3. official Agent code / prompts / DSPy signature 未完整公开；
-4. 当前 Agent 是 paper-aligned reconstruction；
-5. 当前 formal results 使用 DeepSeek `deepseek-v4-flash`，不是原文 GPT-3.5 / Gemini / LLaMA3；
-6. MPC evaluation 使用 DeepSeek 做 predicted molecule -> functional group extraction；
-7. 不与论文 Table 2 严格数值比较。
-
-## 4. 禁止事项
-
-1. prediction 阶段不得使用当前 test sample 的 gold `missing_molecules`；
-2. Agent 不得使用 zero-shot / ICL predictions 作为输入；
-3. Agent 不得使用 FlavorDB full molecule list 作为 evidence；
-4. 不得手工修正 low-score samples；
-5. 不得改变 evaluation metric；
-6. API key 不得写入代码、README 或结果文件；
-7. evaluation 不得重新生成 predictions。
+1. prediction 阶段不得使用当前 test sample 的 gold label。
+2. Agent 不得把 zero-shot / ICL prediction 当作输入证据。
+3. API key 只通过本地环境变量或 `.env.local` 提供，不得写入代码、结果或文档。
+4. reconstructed split 不是官方未公开 split，结果不与论文 Table 2 做严格数值对比。
+5. `results/Only-Deepseek/optimized-agent/` 的冻结产物和当前 `optimized_agent.py` 可能属于不同版本，以 `run_metadata.json` 和 `audit_records/` 为准。

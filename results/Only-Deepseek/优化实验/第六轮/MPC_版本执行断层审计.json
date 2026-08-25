@@ -1,0 +1,85 @@
+{
+  "审计名称": "MPC正式v12与当前v15版本执行断层",
+  "正式测试逐样本是否读取": false,
+  "API调用次数": 0,
+  "正式元数据": {
+    "方法版本": "optimized_agent_v12",
+    "状态": "complete",
+    "正式代码哈希": "68d9456a37cf4792033a8ac2641b346bbf2ef41dbc4c9c700e7931480d1bdaed",
+    "正式运行脚本哈希": "70ce4fd84fdcfdbdd970a4a69a9caec7cd995ab95844f164946486e33b994c0a",
+    "正式set_decoder": "single_grouped_oof_admitted_boundary_exchange_or_h1",
+    "正式action_policy": "train_only_grouped_oof_bootstrap_admitted_local_exchange",
+    "正式离线选择指标": "macro_hidden_molecule_set_f1"
+  },
+  "当前源码": {
+    "方法版本": "optimized_agent_v15_mfp_concrete_protocol",
+    "代码哈希": "a3cfffeee0e914334553ff4891fa136340e463e0e08a7dcf1adc7ade48f6cb1f",
+    "运行脚本哈希": "8aacf2719b9a10de8657f169ef8cbc475834132b7f2b8f1071a68a80e42f03e0",
+    "训练样本数": 568,
+    "未校准默认residual_policy": {
+      "retrieval": {
+        "global": 0
+      },
+      "structural": {
+        "global": 0
+      },
+      "complementarity": {
+        "global": 0
+      }
+    },
+    "未校准默认metric_group_policy": {
+      "budget": 0,
+      "enabled": false,
+      "minimum_expected_f1_gain": null
+    },
+    "未校准默认dual_gate_policy": {
+      "enabled": false,
+      "add_threshold": null,
+      "remove_threshold": null
+    },
+    "未校准默认retrieval_action_policy": {
+      "budget": 0,
+      "threshold": 1.0
+    },
+    "已有v15离线审计结论": {
+      "双门策略是否准入": false,
+      "推理决策": "保持H1",
+      "v15平均官能团F1增益": 0.00481096,
+      "v14平均官能团F1增益": 0.00794142,
+      "证据来源": "audit_records/2026-08-01_optimized-agent-v15-dual-gate-offline-audit.md"
+    },
+    "训练候选宇宙": 1652,
+    "完整候选目录": 25197
+  },
+  "断层判定": {
+    "版本不同": true,
+    "代码哈希不同": true,
+    "运行脚本哈希不同": true,
+    "当前正式分数能否代表当前源码": false
+  },
+  "运行脚本覆盖风险": {
+    "同版本同代码才resume": true,
+    "版本或代码不同会删除旧正式产物": true,
+    "硬编码结果根目录": "results/Only-Deepseek/optimized-agent",
+    "检测到的删除目标": [
+      "predictions.jsonl",
+      "retrieval_metadata.jsonl",
+      "evidence_metadata.jsonl",
+      "hypotheses_metadata.jsonl",
+      "evaluation_details.jsonl",
+      "evaluation_summary.json",
+      "predictions.jsonl",
+      "retrieval_metadata.jsonl",
+      "evidence_metadata.jsonl",
+      "hypotheses_metadata.jsonl",
+      "evaluation_details.jsonl",
+      "evaluation_summary.json"
+    ],
+    "安全决策": "没有单独新结果根目录和用户再次允许前，禁止执行 scripts/run_optimized_agent.sh"
+  },
+  "冻结正式汇总哈希": {
+    "MFP": "ba02ce008582fb0821ee67629efc81cf4a59585435a8404e17b8b086109e5da6",
+    "MPC": "7e323d8dc597c71bdca0489ca7c27906d66099aac5cdaa05e213e21ef07d275e"
+  },
+  "结论": "当前0.653867正式MPC是v12产物，不能作为当前v15源码的直接执行结果；最近离线实验基于当前源码内部H1/Bank，而正式基线来自旧代码，二者存在版本断层。"
+}

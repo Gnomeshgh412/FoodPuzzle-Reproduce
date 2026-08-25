@@ -1,0 +1,16 @@
+{
+  "实验名称": "MPC场景覆盖Bank科学家验证",
+  "唯一变化": "将v16未压缩两步终态到Bank20的expected-F1加几何多样性选择，替换为训练近邻完整缺失官能团场景上的正效用最大覆盖",
+  "冻结部分": "H1、全H1 remove、add100、beam8、两步终态、Bank预算20、Slate5选择器、Reviewer、执行器、无UniMol",
+  "场景数": 15,
+  "场景来源": "仅外层训练折；按现有food+partial profile检索；场景为训练查询完整missing官能团集合",
+  "场景权重": "非负检索分数归一化；相同场景合并；总权重为零时均匀",
+  "场景效用": "max(0, F1(proposal,scenario)-F1(H1,scenario))",
+  "Bank选择": "固定20步最大加权边际场景覆盖；并列依次按predicted expected-F1、浅深度、路径字典序",
+  "主协议": "exact full-profile clustered 5-fold OOF",
+  "压力协议": "full-profile Jaccard>=0.9连通分量 grouped 5-fold OOF",
+  "正式测试集是否读取": false,
+  "正式cache是否读取": false,
+  "API调用次数": 0,
+  "Python哈希种子": 0
+}

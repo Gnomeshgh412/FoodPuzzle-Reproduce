@@ -1,0 +1,12 @@
+{
+  "accuracy": 0.4084507042253521,
+  "correct": 29,
+  "extra_predictions": 0,
+  "gold_category_lookup_failures": 0,
+  "llm_mapping_failures": 0,
+  "matched_ids": 71,
+  "missing_predictions": 0,
+  "parse_failures": 0,
+  "total_gold": 71,
+  "total_predictions": 71
+}

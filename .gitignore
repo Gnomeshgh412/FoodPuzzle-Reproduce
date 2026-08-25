@@ -2,12 +2,39 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+.venv-chem-audit/
 .env
 .env.*
 !.env.example
 *.key
 secrets.txt
 api_key.txt
+API-KEY.txt
 .DS_Store
 .idea/
 /tmp/
+/logs/
+
+# Local third-party checkout and large exploratory workspace
+/UniMol/
+/exploration-experiments/
+
+# Local duplicate / non-independent holdout exports
+/data/flavordb.db
+/data/holdout/
+
+# AF3 local structure data
+data/structure/af3_inputs/*
+data/structure/af3_outputs/*
+!data/structure/af3_inputs/.gitkeep
+!data/structure/af3_outputs/.gitkeep
+
+# AlphaFold 3 official source cloned locally
+Alphafold3/official/*
+!Alphafold3/official/.gitkeep
+
+# Uni-Mol local installation (heavy dependencies + model weights)
+.unimol_site_pkg/
+
+# Uni-Mol representation output (generated embeddings)
+result/
