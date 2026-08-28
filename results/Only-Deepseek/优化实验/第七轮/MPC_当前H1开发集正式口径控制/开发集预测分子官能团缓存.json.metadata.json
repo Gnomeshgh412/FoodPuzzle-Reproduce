@@ -1,7 +1,0 @@
-{
-  "base_url": "https://api.deepseek.com/chat/completions",
-  "model": "deepseek-v4-flash",
-  "prompt_version": "official-vocabulary-json-v1",
-  "provider": "deepseek",
-  "vocabulary_sha256": "dc60428eb0fca10ff77690f49a4584ad624df07c21c299e1fcab0287943101ee"
-}
