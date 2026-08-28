@@ -1,7 +1,0 @@
-{
-  "base_url": "https://aihubmix.com/v1/chat/completions",
-  "model": "gpt-4.1-free",
-  "prompt_version": "official-vocabulary-json-v1",
-  "provider": "aihubmix-gpt-4.1-free",
-  "vocabulary_sha256": "dc60428eb0fca10ff77690f49a4584ad624df07c21c299e1fcab0287943101ee"
-}
