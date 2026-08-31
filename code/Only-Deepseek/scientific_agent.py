@@ -19,6 +19,10 @@ class AgentError(Exception):
     """Scientific Agent 中可预期的失败。"""
 
 
+MFP_AGENT_PROTOCOL_VERSION = "paper-scientist-reviewer-select-only-v1"
+MFP_RETRIEVAL_PROTOCOL_VERSION = "paper-food-molecules-passage-v1"
+
+
 def load_evaluation_module() -> Any:
     """复用 evaluation.py 的 .env.local、provider、API 调用和 JSON fallback 逻辑。"""
     evaluation_path = Path(__file__).resolve().parent / "evaluation.py"
@@ -53,6 +57,32 @@ def append_jsonl(path: Path, row: dict[str, Any]) -> None:
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
         f.flush()
+
+
+def upsert_jsonl(path: Path, row: dict[str, Any]) -> None:
+    """按 id 原子替换可重试记录，避免 resume 产生重复 ID。"""
+    latest: dict[str, dict[str, Any]] = {}
+    order: list[str] = []
+    if path.is_file():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            existing = json.loads(line)
+            if not isinstance(existing, dict) or existing.get("id") is None:
+                continue
+            key = str(existing["id"])
+            if key not in latest:
+                order.append(key)
+            latest[key] = existing
+    key = str(row["id"])
+    if key not in latest:
+        order.append(key)
+    latest[key] = row
+    tmp_path = path.with_name(path.name + ".tmp")
+    with tmp_path.open("w", encoding="utf-8") as f:
+        for item_id in order:
+            f.write(json.dumps(latest[item_id], ensure_ascii=False) + "\n")
+    tmp_path.replace(path)
 
 
 def write_json(path: Path, data: dict[str, Any]) -> None:
@@ -122,8 +152,60 @@ def read_success_agent_prediction_ids(path: Path, task: str) -> set[str]:
     return ids
 
 
-def read_success_hypotheses_ids(path: Path) -> set[str]:
-    """只把无 error 且有 reviewer_output 的 hypotheses metadata 视为完成。"""
+def is_valid_mpc_hypotheses_metadata(row: Any) -> bool:
+    """只接受论文协议完整的 MPC Agent metadata。"""
+    if not isinstance(row, dict) or row.get("error"):
+        return False
+    if row.get("scientist_parse_failed") or row.get("reviewer_parse_failed"):
+        return False
+    n = row.get("n")
+    hypotheses = row.get("hypotheses")
+    reviewer = row.get("reviewer_output")
+    if not isinstance(n, int) or n <= 0 or not isinstance(hypotheses, list) or len(hypotheses) != 3:
+        return False
+    if not all(
+        isinstance(item, dict)
+        and isinstance(item.get("predicted_molecules"), list)
+        and bool(item["predicted_molecules"])
+        for item in hypotheses
+    ):
+        return False
+    return (
+        isinstance(reviewer, dict)
+        and isinstance(reviewer.get("selected_hypothesis_index"), int)
+        and 1 <= reviewer["selected_hypothesis_index"] <= 3
+    )
+
+
+def is_valid_mfp_hypotheses_metadata(row: Any) -> bool:
+    """Accept only complete MFP metadata from the frozen paper protocol."""
+    if not isinstance(row, dict) or row.get("error"):
+        return False
+    if row.get("agent_protocol_version") != MFP_AGENT_PROTOCOL_VERSION:
+        return False
+    if row.get("scientist_parse_failed") or row.get("reviewer_parse_failed"):
+        return False
+    hypotheses = row.get("hypotheses")
+    reviewer = row.get("reviewer_output")
+    if not isinstance(hypotheses, list) or len(hypotheses) != 3:
+        return False
+    if not all(
+        isinstance(item, dict)
+        and isinstance(item.get("predicted_food"), str)
+        and bool(item["predicted_food"].strip())
+        for item in hypotheses
+    ):
+        return False
+    return (
+        isinstance(reviewer, dict)
+        and isinstance(reviewer.get("selected_hypothesis_index"), int)
+        and not isinstance(reviewer.get("selected_hypothesis_index"), bool)
+        and 1 <= reviewer["selected_hypothesis_index"] <= 3
+    )
+
+
+def read_success_hypotheses_ids(path: Path, task: str) -> set[str]:
+    """只把三候选且 Reviewer 有效选择的 metadata 视为完成。"""
     if not path.is_file():
         return set()
     ids: set[str] = set()
@@ -133,12 +215,12 @@ def read_success_hypotheses_ids(path: Path) -> set[str]:
                 row = json.loads(line)
             except Exception:
                 continue
-            if (
-                isinstance(row, dict)
-                and row.get("id") is not None
-                and not row.get("error")
-                and isinstance(row.get("reviewer_output"), dict)
-            ):
+            validator = (
+                is_valid_mfp_hypotheses_metadata
+                if task == "mfp"
+                else is_valid_mpc_hypotheses_metadata
+            )
+            if isinstance(row, dict) and row.get("id") is not None and validator(row):
                 ids.add(str(row["id"]))
     return ids
 
@@ -260,17 +342,13 @@ def format_missing_molecules(row: dict[str, Any], max_items: int | None = None) 
     return ", ".join(items)
 
 
-def mpc_retrieval_text(row: dict[str, Any]) -> str:
-    """MPC BM25 retrieval 只使用推理时可见字段，不使用当前样本 gold。"""
+def mpc_retrieval_text(row: dict[str, Any], *, corpus_passage: bool = False) -> str:
+    """论文定义的 Food + Molecules 检索文本；train 语料使用完整分子谱。"""
     target_food = row.get("target_food") or row.get("food") or ""
-    n = row.get("n")
-    return " ".join(
-        [
-            str(target_food),
-            str(n) if isinstance(n, int) else "",
-            format_partial_molecules(row),
-        ]
-    )
+    molecules = list(row.get("partial_molecules") or [])
+    if corpus_passage and isinstance(row.get("missing_molecules"), list):
+        molecules.extend(row["missing_molecules"])
+    return " ".join([str(target_food), " ".join(str(item) for item in molecules)])
 
 
 class MPCBM25Index:
@@ -280,7 +358,7 @@ class MPCBM25Index:
         self.rows = rows
         self.k1 = k1
         self.b = b
-        self.doc_tokens = [self.tokenize(mpc_retrieval_text(row)) for row in rows]
+        self.doc_tokens = [self.tokenize(mpc_retrieval_text(row, corpus_passage=True)) for row in rows]
         self.doc_len = [len(tokens) for tokens in self.doc_tokens]
         self.avgdl = sum(self.doc_len) / len(self.doc_len) if self.doc_len else 0.0
         self.term_freqs = [Counter(tokens) for tokens in self.doc_tokens]
@@ -312,7 +390,7 @@ class MPCBM25Index:
         return score
 
     def retrieve(self, row: dict[str, Any], top_k: int) -> list[dict[str, Any]]:
-        query_tokens = self.tokenize(mpc_retrieval_text(row))
+        query_tokens = self.tokenize(mpc_retrieval_text(row, corpus_passage=False))
         scored = []
         for idx, train_row in enumerate(self.rows):
             scored.append((self.score(query_tokens, idx), idx, train_row))
@@ -329,85 +407,79 @@ class MPCBM25Index:
         ]
 
 
-def build_train_idf(train_rows: list[dict[str, Any]]) -> dict[str, float]:
-    """只从 reconstructed train split 统计 molecule DF/IDF，避免使用 test label。"""
+def build_train_molecule_entropy(train_rows: list[dict[str, Any]]) -> dict[str, float]:
+    """按 train food 中的出现频率计算 molecule presence 的二元 Shannon 熵。
+
+    FoodPuzzle 论文规定按训练集出现频率计算信息熵，但没有公开具体公式或
+    Scientific Agent 源码。这里使用标准 Bernoulli entropy：
+    H(m) = -p(m) log p(m) - (1-p(m)) log(1-p(m))。
+    """
     df: Counter[str] = Counter()
     for row in train_rows:
         molecules = row.get("molecules")
         if isinstance(molecules, list):
-            df.update({str(molecule).strip().lower() for molecule in molecules})
+            df.update(
+                {
+                    str(molecule).strip().lower()
+                    for molecule in molecules
+                    if str(molecule).strip()
+                }
+            )
+
     total = len(train_rows)
-    return {molecule: math.log(1 + (total + 1) / (freq + 1)) for molecule, freq in df.items()}
+    if total == 0:
+        return {}
+
+    entropy: dict[str, float] = {}
+    for molecule, freq in df.items():
+        probability = freq / total
+        value = 0.0
+        if probability > 0.0:
+            value -= probability * math.log(probability)
+        if probability < 1.0:
+            value -= (1.0 - probability) * math.log(1.0 - probability)
+        entropy[molecule] = value
+    return entropy
 
 
-def select_starting_molecules(
-    row: dict[str, Any],
-    idf: dict[str, float],
-    evidence: dict[str, list[str]],
-    count: int,
+def select_lowest_entropy_molecules(
+    row: dict[str, Any], entropy: dict[str, float], count: int
 ) -> list[str]:
-    """优先选有 official evidence 的 query molecules，再按 train IDF 近似信息量排序。"""
+    """选择至多 ``count`` 个最低训练频率信息熵的 query molecules。"""
     molecules = row.get("molecules")
     if not isinstance(molecules, list):
         return []
-    scored: list[tuple[tuple[int, float, int], str]] = []
+
+    unique: list[tuple[float, int, str]] = []
+    seen: set[str] = set()
     for order, molecule in enumerate(molecules):
         text = str(molecule).strip()
         norm = text.lower()
-        has_evidence = 1 if evidence.get(norm) else 0
-        scored.append(((has_evidence, idf.get(norm, 0.0), -order), text))
-    scored.sort(key=lambda item: item[0], reverse=True)
-    selected: list[str] = []
-    seen: set[str] = set()
-    for _, molecule in scored:
-        norm = molecule.lower()
-        if norm in seen:
+        if not text or norm in seen:
             continue
-        selected.append(molecule)
+        # 未在 train 出现的 molecule 的经验出现概率为 0，因此 entropy 为 0。
+        unique.append((entropy.get(norm, 0.0), order, text))
         seen.add(norm)
-        if len(selected) >= count:
-            break
-    return selected
-
-
-def name_pattern(name: str) -> re.Pattern[str]:
-    """对当前答案做大小写不敏感的边界匹配，避免匹配到长词内部。"""
-    return re.compile(rf"(?<![A-Za-z0-9]){re.escape(name)}(?![A-Za-z0-9])", re.IGNORECASE)
-
-
-def mask_answer(text: str, actual_food: str) -> tuple[str, int]:
-    if not actual_food:
-        return text, 0
-    return name_pattern(actual_food).subn("[MASKED_FOOD]", text)
-
-
-def count_answer_hits(text: str, actual_food: str) -> int:
-    if not actual_food:
-        return 0
-    return len(name_pattern(actual_food).findall(text))
+    unique.sort(key=lambda item: (item[0], item[1]))
+    return [molecule for _, _, molecule in unique[:count]]
 
 
 def build_evidence_blocks(
-    row: dict[str, Any],
     selected_molecules: list[str],
     evidence: dict[str, list[str]],
-    max_snippets_per_molecule: int,
-) -> tuple[list[dict[str, Any]], str, int]:
-    """构造 answer-masked official evidence；actual_food 仅用于 masking 和 metadata。"""
-    actual_food = str(row.get("actual_food") or "")
+    max_snippets_per_molecule: int | None,
+) -> tuple[list[dict[str, Any]], str]:
+    """按 molecule key 读取官方 evidence，不读取或修改测试样本答案。"""
     blocks: list[dict[str, Any]] = []
     prompt_blocks: list[str] = []
-    hits_after_mask = 0
     for molecule in selected_molecules:
         raw_snippets = evidence.get(molecule.strip().lower(), [])
-        used_raw = raw_snippets[:max_snippets_per_molecule]
-        snippets: list[str] = []
-        masked_occurrences = 0
-        for snippet in used_raw:
-            masked, count = mask_answer(str(snippet), actual_food)
-            masked_occurrences += count
-            hits_after_mask += count_answer_hits(masked, actual_food)
-            snippets.append(masked)
+        selected_snippets = (
+            raw_snippets
+            if max_snippets_per_molecule is None
+            else raw_snippets[:max_snippets_per_molecule]
+        )
+        snippets = [str(snippet) for snippet in selected_snippets]
         lines = "\n".join(f"- {snippet}" for snippet in snippets) if snippets else "- no_evidence"
         prompt_blocks.append(f"Molecule: {molecule}\n{lines}")
         blocks.append(
@@ -415,16 +487,20 @@ def build_evidence_blocks(
                 "molecule": molecule,
                 "raw_snippet_count": len(raw_snippets),
                 "used_snippet_count": len(snippets),
-                "masked_occurrences": masked_occurrences,
                 "snippets": snippets,
             }
         )
-    return blocks, "\n\n".join(prompt_blocks), hits_after_mask
+    return blocks, "\n\n".join(prompt_blocks)
 
 
 def load_retrieval_metadata(path: Path) -> dict[str, list[dict[str, Any]]]:
     metadata: dict[str, list[dict[str, Any]]] = {}
     for row in read_jsonl(path):
+        if row.get("retrieval_protocol_version") != MFP_RETRIEVAL_PROTOCOL_VERSION:
+            raise AgentError(
+                "MFP ICL retrieval metadata does not use the frozen paper Food + Molecules protocol: "
+                f"id={row.get('id')}"
+            )
         retrieved = row.get("retrieved")
         if isinstance(retrieved, list):
             metadata[str(row.get("id"))] = [item for item in retrieved if isinstance(item, dict)]
@@ -514,7 +590,6 @@ def format_hypotheses(hypotheses: list[dict[str, str]]) -> str:
 
 def build_reviewer_messages(
     row: dict[str, Any],
-    evidence_text: str,
     demos: list[dict[str, Any]],
     hypotheses: list[dict[str, str]],
 ) -> list[dict[str, str]]:
@@ -523,21 +598,19 @@ def build_reviewer_messages(
         "You are a scientific reviewer. Review the candidate hypotheses and select the best final prediction.\n\n"
         "FoodPuzzle Data Input:\n"
         f"Molecules:\n{format_molecules(row)}\n\n"
-        "Retrieved Evidence Summary:\n"
-        f"{evidence_text}\n\n"
         "BM25 Demonstrations from Training Set:\n"
         f"{build_demo_prompt(demos)}\n\n"
         "Scientist Hypotheses:\n"
         f"{format_hypotheses(hypotheses)}\n\n"
         "Instruction:\n"
-        "Select the best hypothesis based on consistency with the evidence, molecules, and demonstrations.\n"
-        "Do not invent unsupported evidence.\n"
-        "Return a concise final food source or category.\n\n"
+        "Select exactly one of the three Scientist hypotheses based on consistency with the "
+        "input molecules and demonstrations.\n"
+        "Do not synthesize, shorten, rewrite, or otherwise change a hypothesis.\n"
+        "selected_hypothesis_index must be the integer 1, 2, or 3.\n\n"
         "Do not output Markdown.\n"
         "Do not output extra text.\n"
         "Output JSON only:\n"
         "{\n"
-        '  "predicted_food": "...",\n'
         '  "selected_hypothesis_index": 1,\n'
         '  "review_reason": "..."\n'
         "}"
@@ -698,20 +771,18 @@ def parse_hypotheses(content: str) -> list[dict[str, str]] | None:
                     "rationale": str(rationale or "").strip(),
                 }
             )
-    return parsed if parsed else None
+    return parsed if len(parsed) == 3 else None
 
 
 def parse_reviewer_output(content: str) -> dict[str, Any] | None:
     data = parse_json_object(content)
     if data is None:
         return None
-    predicted = data.get("predicted_food")
-    if not isinstance(predicted, str) or not predicted.strip():
-        return None
     selected = data.get("selected_hypothesis_index")
+    if not isinstance(selected, int) or isinstance(selected, bool) or not 1 <= selected <= 3:
+        return None
     return {
-        "predicted_food": predicted.strip(),
-        "selected_hypothesis_index": selected if isinstance(selected, int) else None,
+        "selected_hypothesis_index": selected,
         "review_reason": str(data.get("review_reason") or "").strip(),
     }
 
@@ -776,9 +847,7 @@ def build_mpc_scientist_messages(
         "Instruction:\n"
         "Generate exactly three candidate hypotheses. Each hypothesis should contain a list of likely "
         "missing flavor molecules for the target food and a short rationale.\n"
-        f"Each hypothesis predicted_molecules list should contain exactly {n} molecule names when possible.\n"
-        f"If uncertain, still provide the best {n} candidate missing molecules.\n"
-        f"Never output more than {n} molecule names in any hypothesis.\n"
+        f"Each hypothesis must contain exactly {n} distinct molecule names; any other count is invalid.\n"
         "Do not include molecules already listed in Known molecules.\n"
         "Do not put explanations, evidence text, or long prose inside predicted_molecules.\n"
         "Each predicted_molecules item must be a molecule common name string.\n"
@@ -799,24 +868,141 @@ def build_mpc_scientist_messages(
     ]
 
 
-def parse_mpc_hypotheses(content: str) -> list[dict[str, Any]] | None:
+def parse_mpc_hypotheses(content: str, row: dict[str, Any]) -> list[dict[str, Any]] | None:
     data = parse_json_object(content)
-    if data is None or not isinstance(data.get("hypotheses"), list):
+    if data is None or not isinstance(data.get("hypotheses"), list) or len(data["hypotheses"]) != 3:
+        return None
+    n = row.get("n")
+    if not isinstance(n, int) or n <= 0:
         return None
     hypotheses: list[dict[str, Any]] = []
     for item in data["hypotheses"]:
         if not isinstance(item, dict):
-            continue
-        molecules = normalize_mpc_molecule_list(item.get("predicted_molecules"))
+            return None
+        molecules, _ = normalize_mpc_agent_final_molecules(
+            normalize_mpc_molecule_list(item.get("predicted_molecules")), row
+        )
         if not molecules:
-            continue
+            return None
         hypotheses.append(
             {
                 "predicted_molecules": molecules,
                 "rationale": str(item.get("rationale") or "").strip(),
             }
         )
-    return hypotheses if hypotheses else None
+    return hypotheses if len(hypotheses) == 3 else None
+
+
+def build_mpc_single_hypothesis_messages(
+    row: dict[str, Any],
+    evidence_text: str,
+    demos: list[dict[str, Any]],
+    hypothesis_index: int,
+) -> list[dict[str, str]]:
+    """批量三假设响应被网络截断时，生成一个较短的 Scientist 响应。"""
+    angles = {
+        1: "Prioritize molecules directly supported by the retrieved evidence.",
+        2: "Prioritize analogies from the BM25 labeled demonstrations.",
+        3: "Propose a scientifically plausible alternative to the other reasoning angles.",
+    }
+    n = row.get("n")
+    prompt = (
+        "You are the Scientist in the FoodPuzzle MPC Scientific Agent.\n"
+        f"Generate candidate hypothesis {hypothesis_index} of 3.\n"
+        f"Target food: {row.get('target_food')}\n"
+        f"Known molecules: {format_partial_molecules(row)}\n"
+        f"Expected number of missing molecules: {n}\n\n"
+        f"Retrieved evidence:\n{evidence_text}\n\n"
+        f"BM25 labeled demonstrations:\n{build_mpc_demo_prompt(demos)}\n\n"
+        f"Reasoning angle: {angles[hypothesis_index]}\n"
+        f"Aim to return {n} distinct molecule common names, never more than {n}.\n"
+        "Do not include known molecules. Return JSON only, without Markdown or extra text.\n"
+        '{"predicted_molecules": ["..."], "rationale": "short rationale"}'
+    )
+    return [
+        {"role": "system", "content": "You are a FoodPuzzle MPC Scientist agent that returns only valid JSON."},
+        {"role": "user", "content": prompt},
+    ]
+
+
+def parse_mpc_single_hypothesis(content: str, row: dict[str, Any]) -> dict[str, Any] | None:
+    data = parse_json_object(content)
+    if data is None:
+        return None
+    molecules, _ = normalize_mpc_agent_final_molecules(
+        normalize_mpc_molecule_list(data.get("predicted_molecules")), row
+    )
+    if not molecules:
+        return None
+    return {
+        "predicted_molecules": molecules,
+        "rationale": str(data.get("rationale") or "").strip(),
+    }
+
+
+def generate_mpc_scientist_hypotheses(
+    row: dict[str, Any],
+    evidence_text: str,
+    demos: list[dict[str, Any]],
+    evaluation: Any,
+    llm_config: dict[str, Any],
+) -> dict[str, Any]:
+    """优先一次生成三假设；长响应网络/截断/解析失败时改用三次短响应。"""
+    call_count = 0
+    batch_finish_reason: str | None = None
+    fallback_reason: str | None = None
+    try:
+        call_count += 1
+        response = evaluation.call_chat_completion_response(
+            build_mpc_scientist_messages(row, evidence_text, demos), llm_config
+        )
+        batch_finish_reason = response.get("finish_reason")
+        hypotheses = parse_mpc_hypotheses(response["content"], row)
+        if batch_finish_reason != "length" and hypotheses is not None:
+            return {
+                "hypotheses": hypotheses,
+                "finish_reason": batch_finish_reason,
+                "call_count": call_count,
+                "generation_mode": "batch_three_hypotheses",
+                "fallback_reason": None,
+            }
+        fallback_reason = (
+            "batch_output_truncated" if batch_finish_reason == "length" else "batch_parse_failed"
+        )
+    except Exception as exc:
+        message = str(exc)
+        if "Insufficient Balance" in message or "HTTP error: 402" in message:
+            raise
+        fallback_reason = f"batch_call_error: {message}"
+
+    hypotheses = []
+    fallback_finish_reasons: list[str | None] = []
+    for hypothesis_index in range(1, 4):
+        call_count += 1
+        response = evaluation.call_chat_completion_response(
+            build_mpc_single_hypothesis_messages(
+                row, evidence_text, demos, hypothesis_index
+            ),
+            llm_config,
+        )
+        fallback_finish_reasons.append(response.get("finish_reason"))
+        hypothesis = parse_mpc_single_hypothesis(response["content"], row)
+        if response.get("finish_reason") == "length" or hypothesis is None:
+            return {
+                "hypotheses": None,
+                "finish_reason": response.get("finish_reason"),
+                "call_count": call_count,
+                "generation_mode": "individual_hypotheses_fallback",
+                "fallback_reason": fallback_reason,
+            }
+        hypotheses.append(hypothesis)
+    return {
+        "hypotheses": hypotheses,
+        "finish_reason": ",".join(str(item) for item in fallback_finish_reasons),
+        "call_count": call_count,
+        "generation_mode": "individual_hypotheses_fallback",
+        "fallback_reason": fallback_reason,
+    }
 
 
 def format_mpc_hypotheses(hypotheses: list[dict[str, Any]]) -> str:
@@ -864,18 +1050,16 @@ def build_mpc_reviewer_messages(
         "Scientist Hypotheses:\n"
         f"{format_mpc_hypotheses(hypotheses)}\n\n"
         "Instruction:\n"
-        "Select one of the three hypotheses or synthesize a final list from them.\n"
-        f"The final predicted_molecules list should contain exactly {n} molecule names when possible.\n"
-        f"If uncertain, still provide the best {n} candidate missing molecules.\n"
-        f"Never output more than {n} molecule names.\n"
-        "Do not include molecules already listed in Known molecules.\n"
+        "Select exactly one of the three Scientist hypotheses. Do not synthesize, edit, add, remove, "
+        "or reorder molecule names. Even if all are imperfect, select the most suitable hypothesis.\n"
+        "selected_hypothesis_index must be the integer 1, 2, or 3.\n"
         "Do not output evidence, demonstrations, reasoning, markdown, or any text outside the final JSON.\n"
-        "Each predicted_molecules item must be a molecule common name string, not a sentence or paragraph.\n"
         "Do not output Markdown.\n"
         "Do not output extra text.\n"
         "Output JSON only:\n"
         "{\n"
-        '  "predicted_molecules": ["..."]\n'
+        '  "selected_hypothesis_index": 1,\n'
+        '  "review_reason": "short reason"\n'
         "}"
     )
     return [
@@ -887,21 +1071,12 @@ def build_mpc_reviewer_messages(
 def parse_mpc_reviewer_output(content: str) -> dict[str, Any] | None:
     data = parse_json_object(content)
     if data is None:
-        molecules = parse_mpc_molecules(content)
-        if not molecules:
-            return None
-        return {
-            "predicted_molecules": molecules,
-            "selected_hypothesis_index": None,
-            "review_reason": "",
-        }
-    molecules = normalize_mpc_molecule_list(data.get("predicted_molecules"))
-    if not molecules:
         return None
     selected = data.get("selected_hypothesis_index")
+    if not isinstance(selected, int) or isinstance(selected, bool) or not 1 <= selected <= 3:
+        return None
     return {
-        "predicted_molecules": molecules,
-        "selected_hypothesis_index": selected if isinstance(selected, int) else None,
+        "selected_hypothesis_index": selected,
         "review_reason": str(data.get("review_reason") or "").strip(),
     }
 
@@ -923,14 +1098,23 @@ def validate_common_output_paths(args: argparse.Namespace) -> None:
 def run_mfp_agent(args: argparse.Namespace) -> int:
     if args.task != "mfp":
         raise AgentError("only --task mfp is supported")
-    if args.evidence_route != "answer_masked_official_evidence":
-        raise AgentError("only --evidence-route answer_masked_official_evidence is supported")
+    if args.evidence_route != "official_molecule_keyed_evidence":
+        raise AgentError("only --evidence-route official_molecule_keyed_evidence is supported")
     if not args.use_llm:
         raise AgentError("--use-llm is required to allow real API calls")
     if not args.official_evidence_pkl:
         raise AgentError("--official-evidence-pkl is required for --task mfp")
     if not args.icl_retrieval_metadata:
         raise AgentError("--icl-retrieval-metadata is required for --task mfp")
+    if args.starting_point_count != 10:
+        raise AgentError("MFP formal paper protocol requires --starting-point-count 10")
+    if args.bm25_top_k != 3:
+        raise AgentError("MFP paper protocol requires --bm25-top-k 3")
+    if args.max_snippets_per_molecule is not None:
+        raise AgentError(
+            "MFP formal paper protocol provides all locally stored evidence to the Scientist; "
+            "do not set --max-snippets-per-molecule"
+        )
 
     for path_value, label in [
         (args.train, "train"),
@@ -957,12 +1141,28 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
 
     official_evidence, evidence_info = load_official_evidence(Path(args.official_evidence_pkl))
     retrieval_metadata = load_retrieval_metadata(Path(args.icl_retrieval_metadata))
-    train_idf = build_train_idf(train_rows)
+    missing_retrieval_ids = test_ids - set(retrieval_metadata)
+    incomplete_retrieval_ids = {
+        row_id for row_id, items in retrieval_metadata.items() if len(items) < 3
+    }
+    if missing_retrieval_ids or incomplete_retrieval_ids:
+        raise AgentError(
+            "MFP paper protocol requires three BM25 demonstrations for every test row; "
+            f"missing={len(missing_retrieval_ids)}, incomplete={len(incomplete_retrieval_ids)}"
+        )
+    train_entropy = build_train_molecule_entropy(train_rows)
 
     existing_predictions = read_success_prediction_ids(Path(args.output)) if args.resume else set()
     existing_evidence = read_existing_ids(Path(args.evidence_metadata)) if args.resume else set()
     existing_retrieval = read_existing_ids(Path(args.retrieval_metadata_output)) if args.resume else set()
-    existing_hypotheses = read_success_hypotheses_ids(Path(args.hypotheses_metadata)) if args.resume else set()
+    existing_hypotheses = (
+        read_success_hypotheses_ids(Path(args.hypotheses_metadata), "mfp")
+        if args.resume
+        else set()
+    )
+    # A final prediction is resumable only when its three hypotheses and the
+    # Reviewer selection are valid under the current frozen protocol.
+    existing_predictions &= existing_hypotheses
 
     total = len(test_rows)
     skipped = 0
@@ -978,11 +1178,9 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
             skipped += 1
             continue
 
-        selected = select_starting_molecules(
-            row, train_idf, official_evidence, args.starting_point_count
-        )
-        evidence_blocks, evidence_text, hits_after_mask = build_evidence_blocks(
-            row, selected, official_evidence, args.max_snippets_per_molecule
+        selected = select_lowest_entropy_molecules(row, train_entropy, args.starting_point_count)
+        evidence_blocks, evidence_text = build_evidence_blocks(
+            selected, official_evidence, args.max_snippets_per_molecule
         )
         demos = resolve_demos(row_id, retrieval_metadata, train_by_id, args.bm25_top_k)
 
@@ -990,6 +1188,7 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
         reviewer_parse_failed = False
         hypotheses: list[dict[str, str]] = []
         reviewer_output: dict[str, Any] | None = None
+        reviewer_call_count = 0
         error: str | None = None
         try:
             scientist_content = evaluation.call_chat_completion(
@@ -1000,50 +1199,52 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
             if parsed_hypotheses is None:
                 scientist_parse_failed = True
                 scientist_parse_failures += 1
-            else:
-                hypotheses = parsed_hypotheses[:3]
-
-            reviewer_content = evaluation.call_chat_completion(
-                build_reviewer_messages(row, evidence_text, demos, hypotheses),
-                llm_config,
-            )
-            reviewer_output = parse_reviewer_output(reviewer_content)
-            if reviewer_output is None:
-                reviewer_parse_failed = True
-                reviewer_parse_failures += 1
-                error = "reviewer_parse_failed"
+                error = "scientist_parse_failed"
                 prediction = ""
                 failures += 1
             else:
-                prediction = reviewer_output["predicted_food"]
-                success += 1
+                hypotheses = parsed_hypotheses
+                reviewer_call_count = 1
+                reviewer_content = evaluation.call_chat_completion(
+                    build_reviewer_messages(row, demos, hypotheses),
+                    llm_config,
+                )
+                reviewer_output = parse_reviewer_output(reviewer_content)
+                if reviewer_output is None:
+                    reviewer_parse_failed = True
+                    reviewer_parse_failures += 1
+                    error = "reviewer_parse_failed"
+                    prediction = ""
+                    failures += 1
+                else:
+                    selected_index = reviewer_output["selected_hypothesis_index"]
+                    prediction = hypotheses[selected_index - 1]["predicted_food"]
+                    success += 1
         except Exception as exc:
-            # 余额不足是全局 API 状态，继续逐条重试只会生成一批无效空预测；立即停止，保留已成功行供 resume。
-            message = str(exc)
-            if "Insufficient Balance" in message or "HTTP error: 402" in message:
-                raise AgentError(f"provider quota/balance error; stop for resume later: {message}") from exc
-            error = f"llm_error: {exc}"
-            prediction = ""
-            failures += 1
+            # Provider/network errors are run-level failures. Recording one
+            # empty prediction per test row would hide an outage as model
+            # quality and make the retry loop consume all 71 requests.
+            raise AgentError(f"LLM provider call failed; stop for resume: {exc}") from exc
 
         newly_generated += 1
 
-        if row_id not in existing_evidence:
-            append_jsonl(
+        if row_id not in existing_predictions:
+            upsert_jsonl(
                 Path(args.evidence_metadata),
                 {
                     "id": row_id,
-                    "actual_food_for_audit": row.get("actual_food"),
                     "evidence_route": args.evidence_route,
+                    "evidence_key": "selected_molecule",
                     "selected_molecules": selected,
                     "evidence_blocks": evidence_blocks,
-                    "official_evidence_actual_food_hits_after_mask": hits_after_mask,
-                    "starting_point_method": "train_idf_with_official_evidence_availability",
-                    "uses_test_actual_food_for_starting_point": False,
+                    "starting_point_method": "lowest_train_frequency_binary_shannon_entropy",
+                    "starting_point_count_cap": 10,
+                    "evidence_snippet_limit": None,
+                    "uses_test_actual_food": False,
                 },
             )
-        if row_id not in existing_retrieval:
-            append_jsonl(
+        if row_id not in existing_predictions:
+            upsert_jsonl(
                 Path(args.retrieval_metadata_output),
                 {
                     "id": row_id,
@@ -1061,18 +1262,19 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
                     "bm25_demo_similar_food_risk": row_id in {"32", "25"},
                 },
             )
-        if row_id not in existing_hypotheses:
-            append_jsonl(
+        if row_id not in existing_predictions:
+            upsert_jsonl(
                 Path(args.hypotheses_metadata),
                 {
                     "id": row_id,
+                    "agent_protocol_version": MFP_AGENT_PROTOCOL_VERSION,
                     "scientist_parse_failed": scientist_parse_failed,
                     "reviewer_parse_failed": reviewer_parse_failed,
                     "hypotheses": hypotheses,
                     "reviewer_output": reviewer_output,
                     "llm_calls": {
                         "scientist": 1,
-                        "reviewer": 1,
+                        "reviewer": reviewer_call_count,
                     },
                     "error": error,
                 },
@@ -1081,7 +1283,7 @@ def run_mfp_agent(args: argparse.Namespace) -> int:
         prediction_row = {"id": row_id, "predicted_food": prediction}
         if error:
             prediction_row["error"] = error
-        append_jsonl(Path(args.output), prediction_row)
+        upsert_jsonl(Path(args.output), prediction_row)
 
     print("AGENT_STATUS: PASS")
     print(f"total: {total}")
@@ -1136,7 +1338,8 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
     existing_predictions = read_success_agent_prediction_ids(Path(args.output), "mpc") if args.resume else set()
     existing_evidence = read_existing_ids(Path(args.evidence_metadata)) if args.resume else set()
     existing_retrieval = read_existing_ids(Path(args.retrieval_metadata_output)) if args.resume else set()
-    existing_hypotheses = read_success_hypotheses_ids(Path(args.hypotheses_metadata)) if args.resume else set()
+    existing_hypotheses = read_success_hypotheses_ids(Path(args.hypotheses_metadata), "mpc") if args.resume else set()
+    completed_ids = existing_predictions & existing_hypotheses
 
     total = len(test_rows)
     skipped = 0
@@ -1148,7 +1351,7 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
 
     for row in test_rows:
         row_id = str(row["id"])
-        if row_id in existing_predictions:
+        if row_id in completed_ids:
             skipped += 1
             continue
 
@@ -1159,41 +1362,68 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
 
         scientist_parse_failed = False
         reviewer_parse_failed = False
+        scientist_finish_reason: str | None = None
+        scientist_generation_mode: str | None = None
+        scientist_fallback_reason: str | None = None
+        scientist_call_count = 0
+        reviewer_finish_reason: str | None = None
+        reviewer_call_count = 0
         hypotheses: list[dict[str, Any]] = []
         reviewer_output: dict[str, Any] | None = None
         predicted_molecules: list[str] = []
         normalization_metadata: dict[str, Any] = {}
         error: str | None = None
         try:
-            scientist_content = evaluation.call_chat_completion(
-                build_mpc_scientist_messages(row, evidence_text, demos),
-                llm_config,
+            scientist_result = generate_mpc_scientist_hypotheses(
+                row, evidence_text, demos, evaluation, llm_config
             )
-            parsed_hypotheses = parse_mpc_hypotheses(scientist_content)
+            scientist_finish_reason = scientist_result.get("finish_reason")
+            scientist_generation_mode = scientist_result.get("generation_mode")
+            scientist_fallback_reason = scientist_result.get("fallback_reason")
+            scientist_call_count = scientist_result.get("call_count", 0)
+            parsed_hypotheses = scientist_result.get("hypotheses")
             if parsed_hypotheses is None:
                 scientist_parse_failed = True
                 scientist_parse_failures += 1
+                error = "scientist_parse_failed"
+                failures += 1
             else:
                 hypotheses = parsed_hypotheses[:3]
 
-            reviewer_content = evaluation.call_chat_completion(
-                build_mpc_reviewer_messages(
-                    row, evidence_text, demos, hypotheses, args.reviewer_evidence_mode
-                ),
-                llm_config,
-            )
-            reviewer_output = parse_mpc_reviewer_output(reviewer_content)
-            if reviewer_output is None:
-                reviewer_parse_failed = True
-                reviewer_parse_failures += 1
-                error = "reviewer_parse_failed"
-                failures += 1
-            else:
-                predicted_molecules, normalization_metadata = normalize_mpc_agent_final_molecules(
-                    reviewer_output["predicted_molecules"], row
+                reviewer_call_count = 1
+                reviewer_response = evaluation.call_chat_completion_response(
+                    build_mpc_reviewer_messages(
+                        row, evidence_text, demos, hypotheses, args.reviewer_evidence_mode
+                    ),
+                    llm_config,
                 )
-                reviewer_output["predicted_molecules"] = predicted_molecules
-                success += 1
+                reviewer_content = reviewer_response["content"]
+                reviewer_finish_reason = reviewer_response.get("finish_reason")
+                reviewer_output = parse_mpc_reviewer_output(reviewer_content)
+                if reviewer_finish_reason == "length":
+                    reviewer_parse_failed = True
+                    reviewer_parse_failures += 1
+                    error = "reviewer_output_truncated"
+                    failures += 1
+                elif reviewer_output is None:
+                    reviewer_parse_failed = True
+                    reviewer_parse_failures += 1
+                    error = "reviewer_parse_failed"
+                    failures += 1
+                else:
+                    selected_index = reviewer_output["selected_hypothesis_index"]
+                    predicted_molecules, normalization_metadata = normalize_mpc_agent_final_molecules(
+                        hypotheses[selected_index - 1]["predicted_molecules"], row
+                    )
+                    if not predicted_molecules:
+                        reviewer_parse_failed = True
+                        reviewer_parse_failures += 1
+                        error = "reviewer_selected_invalid_hypothesis"
+                        failures += 1
+                        predicted_molecules = []
+                    else:
+                        success += 1
+                    reviewer_output["predicted_molecules"] = predicted_molecules
         except Exception as exc:
             message = str(exc)
             if "Insufficient Balance" in message or "HTTP error: 402" in message:
@@ -1234,14 +1464,19 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
                 },
             )
         if row_id not in existing_hypotheses:
-            append_jsonl(
+            upsert_jsonl(
                 Path(args.hypotheses_metadata),
                 {
                     "id": row_id,
                     "target_food": row.get("target_food"),
+                    "n": row.get("n"),
                     "hypothesis_count": len(hypotheses),
                     "scientist_parse_failed": scientist_parse_failed,
                     "reviewer_parse_failed": reviewer_parse_failed,
+                    "scientist_finish_reason": scientist_finish_reason,
+                    "scientist_generation_mode": scientist_generation_mode,
+                    "scientist_fallback_reason": scientist_fallback_reason,
+                    "reviewer_finish_reason": reviewer_finish_reason,
                     "hypotheses": hypotheses,
                     "reviewer_selected_hypothesis": (
                         reviewer_output or {}
@@ -1251,8 +1486,8 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
                     "evidence_top_k": args.max_evidence_snippets,
                     "reviewer_evidence_mode": args.reviewer_evidence_mode,
                     "llm_calls": {
-                        "scientist": 1,
-                        "reviewer": 1,
+                        "scientist": scientist_call_count,
+                        "reviewer": reviewer_call_count,
                     },
                     "error": error,
                 },
@@ -1268,7 +1503,7 @@ def run_mpc_agent(args: argparse.Namespace) -> int:
         }
         if error:
             prediction_row["error"] = error
-        append_jsonl(Path(args.output), prediction_row)
+        upsert_jsonl(Path(args.output), prediction_row)
 
     print("AGENT_STATUS: PASS")
     print(f"task: {args.task}")
@@ -1306,8 +1541,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--evidence-metadata", required=True)
     parser.add_argument("--retrieval-metadata", "--retrieval-metadata-output", dest="retrieval_metadata_output", required=True)
     parser.add_argument("--hypotheses-metadata", required=True)
-    parser.add_argument("--starting-point-count", type=int, default=5)
-    parser.add_argument("--max-snippets-per-molecule", type=int, default=3)
+    parser.add_argument("--starting-point-count", type=int, default=10)
+    parser.add_argument(
+        "--max-snippets-per-molecule",
+        type=int,
+        default=None,
+        help="MFP ablation only; formal paper path leaves this unset and uses all stored evidence.",
+    )
     parser.add_argument(
         "--max-evidence-snippets",
         "--evidence-top-k",
@@ -1323,10 +1563,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="MPC Reviewer evidence input mode; default none for formal paper-aligned MPC Agent.",
     )
     parser.add_argument("--bm25-top-k", type=int, default=3)
-    parser.add_argument("--evidence-route", default="answer_masked_official_evidence")
+    parser.add_argument("--evidence-route", default="official_molecule_keyed_evidence")
     parser.add_argument("--llm-provider", choices=["deepseek"], default="deepseek")
     parser.add_argument("--llm-model", default="deepseek-v4-flash")
     parser.add_argument("--llm-base-url", default=None)
+    parser.add_argument(
+        "--llm-max-tokens",
+        type=int,
+        default=None,
+        help="Explicit completion-token budget; MPC Agent reruns use 32768 to avoid truncating large exact-N JSON.",
+    )
     parser.add_argument("--use-llm", action="store_true")
     parser.add_argument("--resume", action="store_true")
     return parser
@@ -1339,7 +1585,8 @@ def main() -> int:
     except AgentError as exc:
         print("AGENT_STATUS: FAIL")
         print(f"ERROR: {exc}")
-        return 1
+        message = str(exc)
+        return 42 if "quota/balance" in message or "HTTP error: 402" in message else 1
 
 
 if __name__ == "__main__":

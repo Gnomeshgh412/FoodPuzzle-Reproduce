@@ -28,9 +28,18 @@ DEFAULT_MPC_FUNCTIONAL_GROUP_CACHE = (
     Path("results")
     / "Only-Deepseek"
     / "shared_cache"
-    / "deepseek-v4-flash_functional_group_cache.json"
+    / "deepseek-v4-flash_functional_group_cache_official_parser_v2.json"
 )
-MPC_FUNCTIONAL_GROUP_PROMPT_VERSION = "official-vocabulary-json-v1"
+DEFAULT_MFP_FOOD_CATEGORY_CACHE = (
+    Path("results")
+    / "Only-Deepseek"
+    / "shared_cache"
+    / "deepseek-v4-flash_food_category_cache_official_mapping_v1.json"
+)
+MFP_FOOD_CATEGORY_PROMPT_VERSION = "official-category-mapping-json-v1"
+MFP_EVALUATION_PROTOCOL_VERSION = "official-gold-deepseek-shared-judge-v1"
+MPC_FUNCTIONAL_GROUP_PROMPT_VERSION = "official-permissive-json-v2"
+MPC_EVALUATION_PROTOCOL_VERSION = "official-literal-gold-deepseek-judge-v4"
 
 # provider 配置集中放置，避免 endpoint / key 环境变量散落在代码各处。
 LLM_PROVIDERS = {
@@ -41,30 +50,32 @@ LLM_PROVIDERS = {
     },
 }
 
-# MFP macro categories 来源：官方 evaluation.py 与论文 Table 1 的宏类别。
-# 官方代码中包含大小写重复的 vegetable；这里保留 21 个小写归一类别。
+# MFP macro categories 按官方 evaluation.py 原始顺序保留。
+# 其中 Vegetable 是官方列表里已存在的大小写重复；评分比较仍按
+# 官方代码小写化，因而语义上是论文 Table 1 的 21 个 macro categories。
 MFP_MACRO_CATEGORIES = [
     "cereal",
-    "fruit",
-    "essentialoil",
     "plant",
-    "bakery",
-    "fungus",
     "seed",
-    "dish",
-    "spice",
     "flower",
-    "nutseed",
-    "beverage",
     "animalproduct",
-    "vegetable",
-    "plantderivative",
     "additive",
-    "meat",
     "fishseafood",
-    "cerealcrop",
     "dairy",
+    "fruit",
+    "bakery",
+    "dish",
+    "nutseed",
+    "vegetable",
+    "meat",
+    "cerealcrop",
     "herb",
+    "essentialoil",
+    "fungus",
+    "spice",
+    "Vegetable",
+    "beverage",
+    "plantderivative",
 ]
 
 # MPC fixed functional group vocabulary。
@@ -280,7 +291,13 @@ def read_mfp_prediction_jsonl_with_failures(path: Path) -> tuple[dict[str, str],
                 failures += 1
                 parse_failed_ids.add(key)
                 continue
-            predictions[key] = value.strip()
+            # Frozen from the public official evaluator before category mapping.
+            cleaned = value.replace("[", "").replace("]", "").replace("*", "").strip()
+            if not cleaned:
+                failures += 1
+                parse_failed_ids.add(key)
+                continue
+            predictions[key] = cleaned
     return predictions, failures, parse_failed_ids
 
 
@@ -340,29 +357,17 @@ def coerce_molecule_list(value: Any) -> list[str] | None:
 
 
 def build_food_category_map(db_path: Path) -> dict[str, str]:
-    """从 SQLite `flavordb.db` 构造 food name / alias 到 category 的映射。"""
+    """按官方 evaluator 构造 entity_alias_readable -> macro category 映射。"""
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     mapping: dict[str, str] = {}
     try:
-        rows = cur.execute(
-            """
-            SELECT category, entity_alias_readable, entity_alias, entity_alias_basket,
-                   entity_alias_synonyms
-            FROM food_entities
-            """
-        )
-        for category, readable, alias, basket, synonyms in rows:
-            if not category:
+        rows = cur.execute("SELECT category, entity_alias_readable FROM food_entities")
+        for category, readable in rows:
+            if not category or not readable:
                 continue
-            normalized_category = normalize_compact(str(category).split("-")[0])
-            for name in [readable, alias, synonyms]:
-                if name:
-                    mapping[normalize_text(name)] = normalized_category
-            if basket:
-                for name in str(basket).split(","):
-                    if name.strip():
-                        mapping[normalize_text(name)] = normalized_category
+            # 官方代码只使用 entity_alias_readable，并取 category 的第一个层级。
+            mapping[str(readable)] = str(category).split("-")[0]
     finally:
         conn.close()
     return mapping
@@ -370,28 +375,19 @@ def build_food_category_map(db_path: Path) -> dict[str, str]:
 
 def parse_functional_groups(raw_value: Any) -> set[str]:
     """逐字兼容官方 evaluation.py 对 FlavorDB functional_groups 的解析。"""
-    if raw_value is None:
-        return set()
-    text = str(raw_value).strip()
-    if not text:
-        return set()
-
-    groups: set[str] = set()
-    # 官方代码先按空格切分；仅对包含 @ 的 compound / primary token 做特殊处理。
-    # 这里保留其公开实现的行为，即使它与按 @ 解析完整多词标签的语义不同。
-    for token in text.split(" "):
-        token = token.strip()
-        if not token:
-            continue
-        if "@" in token:
-            parts = token.split("@")
-            if "compound" in token and len(parts) > 1 and parts[1].strip():
-                groups.add(parts[1].strip().lower())
-            if "primary" in token and parts[0].strip():
-                groups.add(parts[0].strip().lower())
+    # 特意保留官方公开代码的控制流、大小写和空 token。官方的
+    # `else` 绑定到外层 `if "@" in group`；两个内层 if 都没有 else。
+    groups = str(raw_value or "").split(" ")
+    parsed: list[str] = []
+    for group in groups:
+        if "@" in group:
+            if "compound" in group:
+                parsed.append(group.split("@")[1])
+            if "primary" in group:
+                parsed.append(group.split("@")[0])
         else:
-            groups.add(token.lower())
-    return groups
+            parsed.append(group)
+    return set(parsed)
 
 
 def build_molecule_group_map(db_path: Path) -> dict[str, set[str]]:
@@ -419,7 +415,8 @@ def set_metrics(predicted: set[str], gold: set[str]) -> dict[str, float]:
     if not predicted and not gold:
         return {"precision": 1.0, "recall": 1.0, "f1": 1.0, "iou": 1.0}
     overlap = len(predicted & gold)
-    precision = overlap / len(predicted) if predicted else 0.0
+    # 官方公开 evaluator 在 precision 分母上加 1e-09。
+    precision = overlap / (len(predicted) + 1e-09)
     recall = overlap / len(gold) if gold else 0.0
     f1 = (2 * precision * recall / (precision + recall)) if precision + recall else 0.0
     union = len(predicted | gold)
@@ -443,8 +440,87 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def read_food_category_cache(path: Path) -> dict[str, str]:
+    """Read normalized predicted-food -> one official macro category."""
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    allowed = {normalize_compact(category) for category in MFP_MACRO_CATEGORIES}
+    cache: dict[str, str] = {}
+    for food, category in data.items():
+        if isinstance(food, str) and isinstance(category, str):
+            normalized_category = normalize_compact(category)
+            if normalized_category in allowed:
+                cache[normalize_text(food)] = normalized_category
+    return cache
+
+
+def write_food_category_cache(path: Path, cache: dict[str, str]) -> None:
+    """Atomically persist the shared MFP judge mapping."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_name(path.name + ".tmp")
+    tmp_path.write_text(
+        json.dumps(dict(sorted(cache.items())), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    tmp_path.replace(path)
+
+
+def food_category_cache_metadata_path(path: Path) -> Path:
+    return path.with_name(path.name + ".metadata.json")
+
+
+def validate_or_create_food_category_cache_metadata(
+    path: Path, llm_config: dict[str, str]
+) -> None:
+    """Bind the MFP shared cache to one judge, prompt and official vocabulary."""
+    vocabulary_sha256 = hashlib.sha256(
+        json.dumps(
+            MFP_MACRO_CATEGORIES,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    expected = {
+        "provider": llm_config["provider"],
+        "model": llm_config["model"],
+        "base_url": llm_config["base_url"],
+        "prompt_version": MFP_FOOD_CATEGORY_PROMPT_VERSION,
+        "vocabulary_sha256": vocabulary_sha256,
+    }
+    metadata_path = food_category_cache_metadata_path(path)
+    if metadata_path.is_file():
+        try:
+            existing = json.loads(metadata_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            raise EvaluationError(f"invalid food category cache metadata: {metadata_path}") from exc
+        if existing != expected:
+            raise EvaluationError(
+                "food category cache judge mismatch; use a different cache path or the "
+                f"recorded provider/model: {metadata_path}"
+            )
+        return
+    if path.is_file() and path.stat().st_size > 0:
+        raise EvaluationError(
+            "food category cache exists without judge metadata; choose a new cache path "
+            f"or create matching metadata first: {path}"
+        )
+    metadata_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = metadata_path.with_name(metadata_path.name + ".tmp")
+    tmp_path.write_text(
+        json.dumps(expected, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    tmp_path.replace(metadata_path)
+
+
 def read_functional_group_cache(path: Path) -> dict[str, set[str]]:
-    """读取 predicted molecule -> functional groups cache；坏 cache 作为空 cache 处理。"""
+    """读取 predicted molecule -> functional groups cache；保留全部非空标签。"""
     if not path.is_file():
         return {}
     try:
@@ -454,15 +530,13 @@ def read_functional_group_cache(path: Path) -> dict[str, set[str]]:
     if not isinstance(data, dict):
         return {}
     cache: dict[str, set[str]] = {}
-    allowed = {normalize_text(item): item for item in MPC_FUNCTIONAL_GROUP_VOCABULARY}
     for molecule, groups in data.items():
         if not isinstance(groups, list):
             continue
         parsed: set[str] = set()
         for group in groups:
-            key = normalize_text(group)
-            if key in allowed:
-                parsed.add(allowed[key])
+            if isinstance(group, str) and group.strip():
+                parsed.add(group.strip())
         cache[normalize_text(molecule)] = parsed
     return cache
 
@@ -525,7 +599,7 @@ def validate_or_create_functional_group_cache_metadata(
     tmp_path.replace(metadata_path)
 
 
-def resolve_llm_config(args: argparse.Namespace) -> dict[str, str]:
+def resolve_llm_config(args: argparse.Namespace) -> dict[str, Any]:
     """解析 provider / model / endpoint，优先级为 CLI > 环境变量 > 默认值。"""
     provider = args.llm_provider or os.environ.get("LLM_PROVIDER") or DEFAULT_PROVIDER
     provider = normalize_text(provider)
@@ -535,12 +609,18 @@ def resolve_llm_config(args: argparse.Namespace) -> dict[str, str]:
     provider_config = LLM_PROVIDERS[provider]
     model = args.llm_model or provider_config["default_model"]
     base_url = args.llm_base_url or provider_config["base_url"]
-    return {
+    config: dict[str, Any] = {
         "provider": provider,
         "model": model,
         "base_url": base_url,
         "key_env": provider_config["key_env"],
     }
+    max_tokens = getattr(args, "llm_max_tokens", None)
+    if max_tokens is not None:
+        if not isinstance(max_tokens, int) or max_tokens <= 0:
+            raise EvaluationError("llm_max_tokens must be a positive integer")
+        config["max_tokens"] = max_tokens
+    return config
 
 
 def resolve_formal_evaluation_llm_config(args: argparse.Namespace) -> dict[str, str]:
@@ -597,7 +677,7 @@ def is_temperature_compat_error(exc: ChatCompletionHTTPError) -> bool:
 
 def build_chat_payload(
     messages: list[dict[str, str]],
-    llm_config: dict[str, str],
+    llm_config: dict[str, Any],
     use_response_format: bool,
     use_thinking: bool,
     use_temperature: bool,
@@ -610,6 +690,8 @@ def build_chat_payload(
     }
     if use_temperature:
         payload["temperature"] = 0
+    if llm_config.get("max_tokens") is not None:
+        payload["max_tokens"] = llm_config["max_tokens"]
     # JSON Output 能提高 judge 输出稳定性；prompt 中仍明确要求只输出 JSON。
     if use_response_format:
         payload["response_format"] = {"type": "json_object"}
@@ -647,8 +729,10 @@ def post_chat_payload(payload: dict[str, Any], llm_config: dict[str, str]) -> di
     raise EvaluationError(f"{llm_config['provider']} API request failed after retries")
 
 
-def call_chat_completion(messages: list[dict[str, str]], llm_config: dict[str, str]) -> str:
-    """调用 provider-aware Chat Completions API，支持 JSON Output / thinking fallback。"""
+def call_chat_completion_response(
+    messages: list[dict[str, str]], llm_config: dict[str, Any]
+) -> dict[str, Any]:
+    """调用 Chat Completions，并保留截断诊断所需的响应元数据。"""
     use_response_format = True
     use_thinking = llm_config["provider"] == "deepseek"
     use_temperature = True
@@ -679,9 +763,22 @@ def call_chat_completion(messages: list[dict[str, str]], llm_config: dict[str, s
             raise
 
     try:
-        return body["choices"][0]["message"]["content"]
+        choice = body["choices"][0]
+        content = choice["message"]["content"]
+        if not isinstance(content, str):
+            raise TypeError("message content is not a string")
+        return {
+            "content": content,
+            "finish_reason": choice.get("finish_reason"),
+            "usage": body.get("usage"),
+        }
     except Exception as exc:
         raise EvaluationError(f"{llm_config['provider']} API response has unexpected shape: {body}") from exc
+
+
+def call_chat_completion(messages: list[dict[str, str]], llm_config: dict[str, Any]) -> str:
+    """兼容旧调用方：返回文本，同时由 response 版本保留完整停止原因。"""
+    return call_chat_completion_response(messages, llm_config)["content"]
 
 
 def parse_category_json(content: str, categories: list[str]) -> str | None:
@@ -701,7 +798,13 @@ def parse_category_json(content: str, categories: list[str]) -> str | None:
 
 
 def parse_groups_json(content: str, vocabulary: list[str]) -> set[str] | None:
-    """解析 MPC LLM JSON 输出；所有 group 必须来自官方固定 vocabulary。"""
+    """解析 MPC LLM JSON 输出，保留响应中的全部非空 group。
+
+    官方 evaluation.py 不会因为某个返回标签不在候选表中而丢弃整条响应；
+    它把模型返回的标签全部加入预测集合，未知标签随后自然无法与 gold 相交，
+    但仍会进入 F1 的预测集合分母。这里保留 JSON 输出约束，同时复现该语义。
+    ``vocabulary`` 仅用于 prompt，不用于过滤模型输出。
+    """
     try:
         data = json.loads(content)
     except Exception:
@@ -711,13 +814,13 @@ def parse_groups_json(content: str, vocabulary: list[str]) -> set[str] | None:
     groups = data.get("functional_groups")
     if not isinstance(groups, list):
         return None
-    allowed = {normalize_text(item): item for item in vocabulary}
     parsed: set[str] = set()
     for group in groups:
-        key = normalize_text(group)
-        if key not in allowed:
-            return None
-        parsed.add(allowed[key])
+        if not isinstance(group, str):
+            continue
+        value = group.strip()
+        if value:
+            parsed.add(value)
     return parsed
 
 
@@ -785,6 +888,37 @@ def evaluate_mfp(args: argparse.Namespace) -> int:
 
     # 从 SQLite `flavordb.db` 构造 food category 映射。
     food_categories = build_food_category_map(Path(args.db))
+    cache_path = resolve_mfp_food_category_cache_path(args)
+    print(f"MFP food category cache path: {cache_path}", flush=True)
+    validate_or_create_food_category_cache_metadata(cache_path, llm_config)
+    food_category_cache = read_food_category_cache(cache_path)
+    unique_predicted_foods = sorted(
+        {
+            normalize_text(food): food
+            for food in predictions.values()
+            if normalize_text(food)
+        }.items()
+    )
+    cache_hit_count = sum(1 for key, _ in unique_predicted_foods if key in food_category_cache)
+    pending_foods = [
+        (key, food)
+        for key, food in unique_predicted_foods
+        if key not in food_category_cache
+    ]
+    print(f"MFP_EVAL_PROGRESS unique_predicted_foods={len(unique_predicted_foods)}", flush=True)
+    print(f"MFP_EVAL_PROGRESS cache_hit_count={cache_hit_count}", flush=True)
+    print(f"MFP_EVAL_PROGRESS llm_pending_count={len(pending_foods)}", flush=True)
+    for index, (key, food) in enumerate(pending_foods, 1):
+        if index == 1 or index == len(pending_foods) or index % 25 == 0:
+            print(
+                f"MFP_EVAL_PROGRESS llm_food_category_prediction {index}/{len(pending_foods)}",
+                flush=True,
+            )
+        category = predict_food_category(food, MFP_MACRO_CATEGORIES, llm_config)
+        # A transient parse/API failure is never cached as a category.
+        if category is not None:
+            food_category_cache[key] = normalize_compact(category)
+            write_food_category_cache(cache_path, food_category_cache)
     stats = {
         "total_gold": len(gold_rows),
         "total_predictions": len(predictions),
@@ -796,6 +930,14 @@ def evaluate_mfp(args: argparse.Namespace) -> int:
         "llm_mapping_failures": 0,
         "correct": 0,
         "accuracy": 0.0,
+        "unique_predicted_food_count": len(unique_predicted_foods),
+        "cache_hit_count": cache_hit_count,
+        "llm_food_category_prediction_count": len(pending_foods),
+        "food_category_cache_path": str(cache_path),
+        "evaluation_protocol_version": MFP_EVALUATION_PROTOCOL_VERSION,
+        "judge_provider": llm_config["provider"],
+        "judge_model": llm_config["model"],
+        "judge_prompt_version": MFP_FOOD_CATEGORY_PROMPT_VERSION,
     }
 
     gold_ids = {str(row.get("id")) for row in gold_rows if row.get("id") is not None}
@@ -831,7 +973,8 @@ def evaluate_mfp(args: argparse.Namespace) -> int:
             continue
         stats["matched_ids"] += 1
 
-        gold_category = food_categories.get(normalize_text(gold_food))
+        # 与官方 evaluator 一致：actual_food 对 entity_alias_readable 做精确查找。
+        gold_category = food_categories.get(gold_food)
         if not gold_category:
             stats["gold_category_lookup_failures"] += 1
             detail["gold_category_lookup_failed"] = True
@@ -840,10 +983,8 @@ def evaluate_mfp(args: argparse.Namespace) -> int:
             continue
         detail["gold_category"] = gold_category
 
-        # 调用 LLM 将 free-text predicted food 映射到 macro category。
-        predicted_category = predict_food_category(
-            predictions[row_id], MFP_MACRO_CATEGORIES, llm_config
-        )
+        # 三种方法通过项目级共享 cache 使用同一个 free-text -> category 映射。
+        predicted_category = food_category_cache.get(normalize_text(predictions[row_id]))
         if predicted_category is None:
             stats["llm_mapping_failures"] += 1
             detail["llm_mapping_failed"] = True
@@ -865,6 +1006,13 @@ def evaluate_mfp(args: argparse.Namespace) -> int:
     return 0
 
 
+def resolve_mfp_food_category_cache_path(args: argparse.Namespace) -> Path:
+    """MFP defaults to one project-level cache shared by every formal method."""
+    if args.food_category_cache:
+        return Path(args.food_category_cache)
+    return DEFAULT_MFP_FOOD_CATEGORY_CACHE
+
+
 def evaluate_mpc(args: argparse.Namespace) -> int:
     """MPC 主指标：official-code-aligned functional group set F1。"""
     if args.mpc_eval_mode != "official_llm":
@@ -880,7 +1028,8 @@ def evaluate_mpc(args: argparse.Namespace) -> int:
 
     # gold missing_molecules 按官方思路从 FlavorDB 读取 functional_groups。
     molecule_groups = build_molecule_group_map(Path(args.db))
-    # predicted_molecules 全部走 LLM extraction，并限制在官方固定 vocabulary 中。
+    # predicted_molecules 全部走 LLM extraction，并向 judge 提供官方固定 vocabulary。
+    # 与官方 evaluator 一致，返回结果不再被该 vocabulary 强制过滤。
     group_candidates = MPC_FUNCTIONAL_GROUP_VOCABULARY
 
     cache_path = resolve_mpc_functional_group_cache_path(args)
@@ -913,8 +1062,11 @@ def evaluate_mpc(args: argparse.Namespace) -> int:
                 flush=True,
             )
         groups = predict_functional_groups(molecule, group_candidates, llm_config)
-        functional_group_cache[key] = groups or set()
-        write_functional_group_cache(cache_path, functional_group_cache)
+        # 官方 evaluator 在提取异常时跳过当前 molecule。不要把解析失败永久缓存成
+        # 空集合，否则后续 resume 会把暂时失败误当作一次成功的空预测。
+        if groups is not None:
+            functional_group_cache[key] = groups
+            write_functional_group_cache(cache_path, functional_group_cache)
     stats = {
         "total_gold": len(gold_rows),
         "samples_evaluated": 0,
@@ -937,6 +1089,11 @@ def evaluate_mpc(args: argparse.Namespace) -> int:
         "average_recall": 0.0,
         "average_f1": 0.0,
         "average_iou": 0.0,
+        "evaluation_protocol_version": MPC_EVALUATION_PROTOCOL_VERSION,
+        "functional_group_cache_path": str(cache_path),
+        "judge_provider": llm_config["provider"],
+        "judge_model": llm_config["model"],
+        "judge_prompt_version": MPC_FUNCTIONAL_GROUP_PROMPT_VERSION,
     }
 
     metrics: list[dict[str, float]] = []
@@ -1007,7 +1164,7 @@ def evaluate_mpc(args: argparse.Namespace) -> int:
         for molecule in predictions[row_id]:
             key = normalize_text(molecule)
             groups = functional_group_cache.get(key)
-            if groups is None or not groups:
+            if groups is None:
                 stats["failed_functional_group_prediction_count"] += 1
                 stats["unmapped_predicted_molecule_count"] += 1
                 unique_unmapped_predicted_molecules.add(key)
@@ -1032,6 +1189,8 @@ def evaluate_mpc(args: argparse.Namespace) -> int:
         stats["average_f1"] = sum(item["f1"] for item in metrics) / len(metrics)
         stats["average_iou"] = sum(item["iou"] for item in metrics) / len(metrics)
     stats["unique_unmapped_predicted_molecule_count"] = len(unique_unmapped_predicted_molecules)
+    if cache_path.is_file():
+        stats["functional_group_cache_sha256"] = hashlib.sha256(cache_path.read_bytes()).hexdigest()
 
     if args.save_details:
         write_jsonl(Path(args.save_details), details)
@@ -1095,6 +1254,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="MPC evaluation mode; official_llm is the formal paper/code-aligned path",
     )
     parser.add_argument(
+        "--food-category-cache",
+        default=None,
+        help=(
+            "shared cache for predicted food -> official macro category during MFP evaluation; "
+            f"defaults to {DEFAULT_MFP_FOOD_CATEGORY_CACHE}"
+        ),
+    )
+    parser.add_argument(
         "--functional-group-cache",
         default=None,
         help=(
@@ -1122,7 +1289,8 @@ def main(argv: list[str] | None = None) -> int:
         raise EvaluationError("No action selected. Use --check-api-config or --task.")
     except EvaluationError as exc:
         print_json_status("EVALUATION_STATUS", "FAIL", {"error": str(exc)})
-        return 1
+        message = str(exc)
+        return 42 if "Insufficient Balance" in message or "HTTP error: 402" in message else 1
 
 
 if __name__ == "__main__":

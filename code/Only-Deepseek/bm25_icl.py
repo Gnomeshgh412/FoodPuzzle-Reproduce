@@ -19,6 +19,7 @@ from typing import Any
 
 BM25_K1 = 1.5
 BM25_B = 0.75
+MFP_RETRIEVAL_PROTOCOL_VERSION = "paper-food-molecules-passage-v1"
 
 
 class ICLError(Exception):
@@ -75,27 +76,41 @@ def molecule_text(row: dict[str, Any]) -> str:
     return " ".join(str(molecule) for molecule in molecules)
 
 
-def mpc_retrieval_text(row: dict[str, Any]) -> str:
-    """MPC BM25 query/index 文本：只使用推理时可见字段，不使用当前样本 gold。"""
+def mfp_retrieval_text(row: dict[str, Any], *, corpus_passage: bool = False) -> str:
+    """Paper-defined MFP BM25 text.
+
+    Labeled train passages contain both the food label and its molecules.  At
+    inference time the food is the unknown target, so the query contains only
+    the observed molecules.
+    """
+    molecules = molecule_text(row)
+    if not corpus_passage:
+        return molecules
+    food = row.get("actual_food") or row.get("target_food") or row.get("food") or ""
+    return f"Food: {food}. Molecules: {molecules}"
+
+
+def mpc_retrieval_text(row: dict[str, Any], *, corpus_passage: bool = False) -> str:
+    """论文定义的 MPC BM25 文本：Food + Molecules，不包含 n。
+
+    labeled train corpus 使用完整分子谱（partial + missing）；test query 仅使用
+    推理时可见的 partial_molecules。
+    """
     target_food = row.get("target_food") or row.get("food") or ""
     partial_molecules = row.get("partial_molecules")
     if not isinstance(partial_molecules, list):
         partial_molecules = []
-    n = row.get("n")
-    return " ".join(
-        [
-            str(target_food),
-            str(n) if isinstance(n, int) else "",
-            " ".join(str(molecule) for molecule in partial_molecules),
-        ]
-    )
+    molecules = list(partial_molecules)
+    if corpus_passage and isinstance(row.get("missing_molecules"), list):
+        molecules.extend(row["missing_molecules"])
+    return " ".join([str(target_food), " ".join(str(molecule) for molecule in molecules)])
 
 
-def retrieval_text(row: dict[str, Any], task: str) -> str:
+def retrieval_text(row: dict[str, Any], task: str, *, corpus_passage: bool = False) -> str:
     if task == "mfp":
-        return molecule_text(row)
+        return mfp_retrieval_text(row, corpus_passage=corpus_passage)
     if task == "mpc":
-        return mpc_retrieval_text(row)
+        return mpc_retrieval_text(row, corpus_passage=corpus_passage)
     raise ICLError(f"unknown task: {task}")
 
 
@@ -107,7 +122,7 @@ class BM25Index:
         self.task = task
         self.k1 = k1
         self.b = b
-        self.doc_tokens = [tokenize(retrieval_text(row, task)) for row in rows]
+        self.doc_tokens = [tokenize(retrieval_text(row, task, corpus_passage=True)) for row in rows]
         self.doc_len = [len(tokens) for tokens in self.doc_tokens]
         self.avgdl = sum(self.doc_len) / len(self.doc_len) if self.doc_len else 0.0
         self.term_freqs = [Counter(tokens) for tokens in self.doc_tokens]
@@ -135,7 +150,7 @@ class BM25Index:
         return score
 
     def retrieve(self, query_row: dict[str, Any], top_k: int) -> list[dict[str, Any]]:
-        query_tokens = tokenize(retrieval_text(query_row, self.task))
+        query_tokens = tokenize(retrieval_text(query_row, self.task, corpus_passage=False))
         scored = []
         for idx, row in enumerate(self.rows):
             score = self.score(query_tokens, idx)
@@ -306,7 +321,7 @@ def build_mpc_prompt_messages(query_row: dict[str, Any], retrieved: list[dict[st
         f"Food: {target_food.strip()}\n"
         f"Known molecules: {format_partial_molecules(query_row)}\n"
         f"Number of missing molecules to predict: {n}\n\n"
-        f"Predict exactly {n} molecules if possible. If exact {n} is difficult, return the best possible list.\n"
+        f"Return exactly {n} distinct molecule names. Any other count is invalid.\n"
         "Do not include molecules already listed in Known molecules.\n"
         "Do not output explanations. Do not use Markdown. Return only valid JSON.\n"
         'Required JSON format: {"predicted_molecules": ["molecule name 1", "molecule name 2"]}'
@@ -356,6 +371,27 @@ def read_existing_ids(path: Path) -> set[str]:
     return existing
 
 
+def read_valid_mfp_retrieval_ids(path: Path) -> set[str]:
+    """Only accept MFP retrieval rows produced by the frozen paper protocol."""
+    if not path.is_file():
+        return set()
+    valid: set[str] = set()
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            try:
+                row = json.loads(line)
+            except Exception:
+                continue
+            if (
+                isinstance(row, dict)
+                and row.get("id") is not None
+                and row.get("retrieval_protocol_version") == MFP_RETRIEVAL_PROTOCOL_VERSION
+                and isinstance(row.get("retrieved"), list)
+            ):
+                valid.add(str(row["id"]))
+    return valid
+
+
 def read_success_prediction_ids(path: Path, task: str) -> set[str]:
     """断点恢复时只跳过成功预测，让失败或空预测在下一轮重新生成。"""
     if not path.is_file():
@@ -390,11 +426,39 @@ def append_jsonl(path: Path, row: dict[str, Any]) -> None:
         f.flush()
 
 
+def upsert_prediction_jsonl(path: Path, row: dict[str, Any]) -> None:
+    """按 id 原子替换 prediction，避免 resume 留下重复 ID。"""
+    latest: dict[str, dict[str, Any]] = {}
+    order: list[str] = []
+    if path.is_file():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            existing = json.loads(line)
+            if not isinstance(existing, dict) or existing.get("id") is None:
+                continue
+            key = str(existing["id"])
+            if key not in latest:
+                order.append(key)
+            latest[key] = existing
+    key = str(row["id"])
+    if key not in latest:
+        order.append(key)
+    latest[key] = row
+    tmp_path = path.with_name(path.name + ".tmp")
+    with tmp_path.open("w", encoding="utf-8") as f:
+        for item_id in order:
+            f.write(json.dumps(latest[item_id], ensure_ascii=False) + "\n")
+    tmp_path.replace(path)
+
+
 def run_icl(args: argparse.Namespace) -> int:
     if not args.use_llm:
         raise ICLError("--use-llm is required to allow real API calls")
     if args.top_k <= 0:
         raise ICLError("--top-k must be positive")
+    if args.task == "mfp" and args.top_k != 3:
+        raise ICLError("MFP formal paper protocol requires --top-k 3")
 
     train_path = Path(args.train)
     test_path = Path(args.test)
@@ -430,6 +494,11 @@ def run_icl(args: argparse.Namespace) -> int:
         read_success_prediction_ids(output_path, args.task) if args.resume else set()
     )
     existing_metadata = read_existing_ids(metadata_path) if args.resume else set()
+    if args.task == "mfp" and args.resume:
+        existing_metadata = read_valid_mfp_retrieval_ids(metadata_path)
+        # A prediction generated from stale retrieval is not resumable under
+        # the frozen paper protocol.
+        existing_predictions &= existing_metadata
 
     total = len(test_rows)
     skipped = 0
@@ -440,24 +509,31 @@ def run_icl(args: argparse.Namespace) -> int:
     for row in test_rows:
         row_id = str(row["id"])
         retrieved = index.retrieve(row, args.top_k)
-        if row_id not in existing_metadata:
-            # retrieval_metadata 是正式 ICL 可追溯输出，不是调试字段。
-            append_jsonl(
-                metadata_path,
+        # retrieval_metadata 是正式 ICL 可追溯输出；upsert 使旧协议记录
+        # 在 resume 时被原子替换，而不是形成重复 ID。
+        metadata_row = {
+            "id": row["id"],
+            "retrieved": [
                 {
-                    "id": row["id"],
-                    "retrieved": [
-                        {
-                            "id": item["id"],
-                            "rank": item["rank"],
-                            "score": item["score"],
-                            "actual_food": item["actual_food"],
-                            "target_food": item["target_food"],
-                        }
-                        for item in retrieved
-                    ],
-                },
+                    "id": item["id"],
+                    "rank": item["rank"],
+                    "score": item["score"],
+                    "actual_food": item["actual_food"],
+                    "target_food": item["target_food"],
+                }
+                for item in retrieved
+            ],
+        }
+        if args.task == "mfp":
+            metadata_row.update(
+                {
+                    "retrieval_protocol_version": MFP_RETRIEVAL_PROTOCOL_VERSION,
+                    "corpus_passage_format": "Food: F'. Molecules: M'",
+                    "query_format": "Molecules: M",
+                }
             )
+        if row_id not in existing_metadata:
+            upsert_prediction_jsonl(metadata_path, metadata_row)
 
         if row_id in existing_predictions:
             skipped += 1
@@ -489,7 +565,10 @@ def run_icl(args: argparse.Namespace) -> int:
                     "predicted_molecules": predicted_molecules,
                 }
             success += 1
-        except Exception as exc:
+        except ICLError as exc:
+            # Only local response-validation failures are recorded per sample.
+            # Provider/network failures must stop the run so they cannot turn
+            # an outage into 71 fake parse failures.
             if args.task == "mfp":
                 out = {"id": row["id"], "predicted_food": "", "error": "parse_failed"}
             else:
@@ -503,8 +582,10 @@ def run_icl(args: argparse.Namespace) -> int:
                     "error": "empty_prediction" if str(exc) == "empty_prediction" else "parse_failed",
                 }
             failures += 1
+        except Exception as exc:
+            raise ICLError(f"LLM provider call failed; stop for resume: {exc}") from exc
 
-        append_jsonl(output_path, out)
+        upsert_prediction_jsonl(output_path, out)
         newly_generated += 1
 
     print("ICL_STATUS: PASS")
@@ -544,6 +625,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--llm-provider", choices=["deepseek"], default="deepseek")
     parser.add_argument("--llm-model", default="deepseek-v4-flash")
     parser.add_argument("--llm-base-url", help="override provider Chat Completions endpoint")
+    parser.add_argument("--llm-max-tokens", type=int, default=None)
     parser.add_argument("--use-llm", action="store_true")
     parser.add_argument("--resume", action="store_true")
     return parser

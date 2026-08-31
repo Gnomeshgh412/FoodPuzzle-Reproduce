@@ -168,7 +168,7 @@ def build_mpc_messages(row: dict[str, Any]) -> list[dict[str, str]]:
         "Number of molecules to predict:\n"
         f"{n}\n\n"
         "Instruction:\n"
-        f"Predict exactly {n} flavor molecules if possible. If exact {n} is difficult, still return the best possible list.\n"
+        f"Return exactly {n} distinct flavor molecule names. Any other count is invalid.\n"
         "Return molecule common names when possible.\n"
         "Do not include molecules already listed in Known molecules.\n"
         "Do not output flavor descriptors such as nutty, roasted, sweet, fruity, meaty, or floral.\n"
@@ -331,7 +331,10 @@ def build_prediction_for_row(row: dict[str, Any], task: str, llm_config: dict[st
         if not predicted_molecules:
             return {**base_output, "predicted_molecules": [], "error": "empty_prediction"}, False
         return {**base_output, "predicted_molecules": predicted_molecules}, True
-    except Exception:
+    except Exception as exc:
+        message = str(exc)
+        if "Insufficient Balance" in message or "HTTP error: 402" in message:
+            raise ZeroShotError(f"provider quota/balance error; stop for resume later: {message}") from exc
         if task == "mfp":
             return {"id": row_id, "predicted_food": "", "error": "parse_failed"}, False
         return {
@@ -458,7 +461,7 @@ def generate_predictions(args: argparse.Namespace) -> int:
                 "provider": llm_config["provider"],
                 "model": llm_config["model"],
                 "total": total,
-                "existing_successful_predictions": len(existing_ids),
+                "existing_rows_skipped": len(existing_ids),
                 "success": success,
                 "failures": failures,
                 "skipped_existing": skipped_existing,
@@ -480,6 +483,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--llm-provider", choices=["deepseek"], default="deepseek")
     parser.add_argument("--llm-model", default="deepseek-v4-flash")
     parser.add_argument("--llm-base-url", help="override provider Chat Completions endpoint")
+    parser.add_argument("--llm-max-tokens", type=int, default=None)
     parser.add_argument("--use-llm", action="store_true", help="allow real API calls")
     parser.add_argument("--resume", action="store_true", help="append only missing ids when output exists")
     parser.add_argument("--retry-errors", action="store_true", help="with --resume, retry only existing error or empty prediction rows")
