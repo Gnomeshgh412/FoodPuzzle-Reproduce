@@ -1,28 +1,28 @@
 {"id": 166, "predicted_food": "Apricot"}
-{"id": 373, "predicted_food": "Corn"}
+{"id": 373, "predicted_food": "Soybean"}
 {"id": 464, "predicted_food": "Yautia"}
 {"id": 674, "predicted_food": "Carob"}
-{"id": 668, "predicted_food": "Leavening agent"}
+{"id": 668, "predicted_food": "Pate"}
 {"id": 103, "predicted_food": "Beer"}
 {"id": 691, "predicted_food": "Nougat"}
-{"id": 81, "predicted_food": "Munster Cheese"}
-{"id": 296, "predicted_food": "Bonito"}
+{"id": 81, "predicted_food": "Cheese"}
+{"id": 296, "predicted_food": "Smoked meat"}
 {"id": 233, "predicted_food": "Cumin"}
-{"id": 46, "predicted_food": "Beer"}
+{"id": 46, "predicted_food": "Coffee"}
 {"id": 71, "predicted_food": "Domiati Cheese"}
 {"id": 196, "predicted_food": "Apple"}
 {"id": 591, "predicted_food": "Yautia"}
-{"id": 370, "predicted_food": "Jasmine tea"}
+{"id": 370, "predicted_food": "Jasmine"}
 {"id": 633, "predicted_food": "Nougat"}
-{"id": 643, "predicted_food": "Leavening agent"}
+{"id": 643, "predicted_food": "Pate"}
 {"id": 300, "predicted_food": "Chard"}
 {"id": 565, "predicted_food": "Yautia"}
-{"id": 80, "predicted_food": "Goat Cheese"}
-{"id": 387, "predicted_food": "Soybean"}
+{"id": 80, "predicted_food": "Sheep Cheese"}
+{"id": 387, "predicted_food": "Laurel"}
 {"id": 127, "predicted_food": "Cherry"}
-{"id": 549, "predicted_food": "Leavening agent"}
+{"id": 549, "predicted_food": "Pate"}
 {"id": 470, "predicted_food": "Yautia"}
-{"id": 44, "predicted_food": "Bilberry Wine"}
+{"id": 44, "predicted_food": "Wine"}
 {"id": 270, "predicted_food": "Green Beans"}
 {"id": 618, "predicted_food": "Nougat"}
 {"id": 352, "predicted_food": "Potato"}
@@ -30,13 +30,13 @@
 {"id": 99, "predicted_food": "Citrus Fruits"}
 {"id": 389, "predicted_food": "Garden cress"}
 {"id": 94, "predicted_food": "Peppermint"}
-{"id": 701, "predicted_food": "Leavening agent"}
+{"id": 701, "predicted_food": "Pate"}
 {"id": 344, "predicted_food": "Musk Melon"}
-{"id": 220, "predicted_food": "Passionfruit"}
-{"id": 159, "predicted_food": "Rosemary"}
-{"id": 679, "predicted_food": "Leavening agent"}
+{"id": 220, "predicted_food": "Strawberry"}
+{"id": 159, "predicted_food": "Black Currant"}
+{"id": 679, "predicted_food": "Pate"}
 {"id": 348, "predicted_food": "Rose hip"}
-{"id": 696, "predicted_food": "Leavening agent"}
+{"id": 696, "predicted_food": "Pate"}
 {"id": 163, "predicted_food": "Onion"}
 {"id": 6, "predicted_food": "Beer"}
 {"id": 284, "predicted_food": "Garlic"}
@@ -45,27 +45,27 @@
 {"id": 225, "predicted_food": "Mandarin Orange"}
 {"id": 429, "predicted_food": "Chestnut"}
 {"id": 699, "predicted_food": "Nougat"}
-{"id": 665, "predicted_food": "Leavening agent"}
-{"id": 203, "predicted_food": "Cinnamon"}
+{"id": 665, "predicted_food": "Pate"}
+{"id": 203, "predicted_food": "Tomato"}
 {"id": 574, "predicted_food": "Nougat"}
 {"id": 27, "predicted_food": "Japanese Whisky"}
-{"id": 616, "predicted_food": "Leavening agent"}
+{"id": 616, "predicted_food": "Pate"}
 {"id": 517, "predicted_food": "Purslane"}
 {"id": 238, "predicted_food": "Naranjilla"}
-{"id": 223, "predicted_food": "Mandarin Orange"}
+{"id": 223, "predicted_food": "Orange"}
 {"id": 95, "predicted_food": "Eucalyptus"}
-{"id": 30, "predicted_food": "Scotch Whisky"}
+{"id": 30, "predicted_food": "Whisky"}
 {"id": 32, "predicted_food": "Red Wine"}
-{"id": 432, "predicted_food": "Lupine"}
+{"id": 432, "predicted_food": "Ginseng"}
 {"id": 604, "predicted_food": "Nougat"}
 {"id": 89, "predicted_food": "Fatty Fish"}
 {"id": 558, "predicted_food": "Yautia"}
-{"id": 692, "predicted_food": "Leavening agent"}
+{"id": 692, "predicted_food": "Pate"}
 {"id": 104, "predicted_food": "Ylang-Ylang"}
 {"id": 142, "predicted_food": "Cheese"}
 {"id": 228, "predicted_food": "Citrus Peel Oil"}
 {"id": 250, "predicted_food": "Laurel"}
 {"id": 281, "predicted_food": "Peanut"}
 {"id": 25, "predicted_food": "Japanese Whisky"}
-{"id": 114, "predicted_food": "Strawberry"}
-{"id": 654, "predicted_food": "Leavening agent"}
+{"id": 114, "predicted_food": "Orange"}
+{"id": 654, "predicted_food": "Pate"}

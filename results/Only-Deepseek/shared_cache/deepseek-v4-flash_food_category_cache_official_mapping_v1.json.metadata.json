@@ -1,0 +1,7 @@
+{
+  "base_url": "https://api.deepseek.com/chat/completions",
+  "model": "deepseek-v4-flash",
+  "prompt_version": "official-category-mapping-json-v1",
+  "provider": "deepseek",
+  "vocabulary_sha256": "273518bc1ee7e16959501ec31c3a5bd242f32fc1d467249db095df9f40360476"
+}

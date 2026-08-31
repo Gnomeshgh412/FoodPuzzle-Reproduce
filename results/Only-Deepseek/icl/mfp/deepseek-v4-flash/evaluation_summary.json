@@ -1,0 +1,20 @@
+{
+  "accuracy": 0.352112676056338,
+  "cache_hit_count": 47,
+  "correct": 25,
+  "evaluation_protocol_version": "official-gold-deepseek-shared-judge-v1",
+  "extra_predictions": 0,
+  "food_category_cache_path": "results/Only-Deepseek/shared_cache/deepseek-v4-flash_food_category_cache_official_mapping_v1.json",
+  "gold_category_lookup_failures": 0,
+  "judge_model": "deepseek-v4-flash",
+  "judge_prompt_version": "official-category-mapping-json-v1",
+  "judge_provider": "deepseek",
+  "llm_food_category_prediction_count": 0,
+  "llm_mapping_failures": 0,
+  "matched_ids": 71,
+  "missing_predictions": 0,
+  "parse_failures": 0,
+  "total_gold": 71,
+  "total_predictions": 71,
+  "unique_predicted_food_count": 47
+}
